@@ -10,6 +10,8 @@
 		88387A6E235477A40012C1B2 /* RandomUserKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88387A64235477A40012C1B2 /* RandomUserKit.framework */; };
 		88387A73235477A40012C1B2 /* RandomUserKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387A72235477A40012C1B2 /* RandomUserKitTests.swift */; };
 		88387A75235477A40012C1B2 /* RandomUserKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 88387A67235477A40012C1B2 /* RandomUserKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		88387AA6235478590012C1B2 /* Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88387AA5235478590012C1B2 /* Models.framework */; };
+		88387AA7235478590012C1B2 /* Models.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88387AA5235478590012C1B2 /* Models.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +24,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		88387AA8235478590012C1B2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				88387AA7235478590012C1B2 /* Models.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		88387A64235477A40012C1B2 /* RandomUserKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RandomUserKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88387A67235477A40012C1B2 /* RandomUserKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RandomUserKit.h; sourceTree = "<group>"; };
@@ -29,6 +45,7 @@
 		88387A6D235477A40012C1B2 /* RandomUserKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomUserKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88387A72235477A40012C1B2 /* RandomUserKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUserKitTests.swift; sourceTree = "<group>"; };
 		88387A74235477A40012C1B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88387AA5235478590012C1B2 /* Models.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Models.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88387AA6235478590012C1B2 /* Models.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +74,7 @@
 				88387A66235477A40012C1B2 /* RandomUserKit */,
 				88387A71235477A40012C1B2 /* RandomUserKitTests */,
 				88387A65235477A40012C1B2 /* Products */,
+				88387AA4235478590012C1B2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +121,14 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		88387AA4235478590012C1B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				88387AA5235478590012C1B2 /* Models.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -124,6 +151,7 @@
 				88387A60235477A40012C1B2 /* Sources */,
 				88387A61235477A40012C1B2 /* Frameworks */,
 				88387A62235477A40012C1B2 /* Resources */,
+				88387AA8235478590012C1B2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
