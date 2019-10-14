@@ -4,4 +4,7 @@
    <FileRef
       location = "container:RandomUser.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:RandomUserKit/RandomUserKit.xcodeproj">
+   </FileRef>
 </Workspace>
