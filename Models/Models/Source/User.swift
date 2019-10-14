@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct User {
+public struct User {
     let gender: String?
     let name: Name?
     let location: Location?
@@ -62,13 +62,13 @@ extension User: Codable {
 }
 
 
-struct Name: Codable {
+public struct Name: Codable {
     let title: String
     let first: String
     let last: String
 }
 
-struct Login: Codable {
+public struct Login: Codable {
     let uuid: String
     let username: String
     let password: String
@@ -79,25 +79,25 @@ struct Login: Codable {
 }
 
 
-struct DateOfBirth: Codable {
+public struct DateOfBirth: Codable {
     let date: String
     let age: Int
 }
 
 
-struct RegisteredData: Codable {
+public struct RegisteredData: Codable {
     let date: String
     let age: Int
 }
 
 
-struct Identifier: Codable {
+public struct Identifier: Codable {
     let name: String
     let value: String
 }
 
 
-struct ProfileImage: Codable {
+public struct ProfileImage: Codable {
     let large: String
     let medium: String
     let thumbnail: String

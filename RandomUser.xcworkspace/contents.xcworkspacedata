@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Models/Models.xcodeproj">
+      location = "container:RandomUser.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:RandomUser.xcodeproj">
+      location = "group:Models/Models.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:RandomUserKit/RandomUserKit.xcodeproj">

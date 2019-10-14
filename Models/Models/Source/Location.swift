@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct Location {
+public struct Location {
     let street: String
     let city: String
     let state: String
