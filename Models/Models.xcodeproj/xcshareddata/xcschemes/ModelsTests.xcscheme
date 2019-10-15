@@ -14,7 +14,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "88387A92235478210012C1B2"
+               BlueprintIdentifier = "88387AB2235482560012C1B2"
                BuildableName = "ModelsTests.xctest"
                BlueprintName = "ModelsTests"
                ReferencedContainer = "container:Models.xcodeproj">
@@ -26,13 +26,14 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "88387A92235478210012C1B2"
+               BlueprintIdentifier = "88387AB2235482560012C1B2"
                BuildableName = "ModelsTests.xctest"
                BlueprintName = "ModelsTests"
                ReferencedContainer = "container:Models.xcodeproj">
@@ -60,7 +61,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "88387A92235478210012C1B2"
+            BlueprintIdentifier = "88387AB2235482560012C1B2"
             BuildableName = "ModelsTests.xctest"
             BlueprintName = "ModelsTests"
             ReferencedContainer = "container:Models.xcodeproj">

@@ -9,20 +9,6 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "88387A63235477A40012C1B2"
-               BuildableName = "RandomUserKit.framework"
-               BlueprintName = "RandomUserKit"
-               ReferencedContainer = "container:RandomUserKit.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "NO">
@@ -40,8 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -75,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "88387A63235477A40012C1B2"
-            BuildableName = "RandomUserKit.framework"
-            BlueprintName = "RandomUserKit"
+            BlueprintIdentifier = "88387A6C235477A40012C1B2"
+            BuildableName = "RandomUserKitTests.xctest"
+            BlueprintName = "RandomUserKitTests"
             ReferencedContainer = "container:RandomUserKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

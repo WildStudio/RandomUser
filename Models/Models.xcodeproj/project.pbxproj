@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		88387A9B235478210012C1B2 /* Models.h in Headers */ = {isa = PBXBuildFile; fileRef = 88387A8D235478210012C1B2 /* Models.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88387AAB235478710012C1B2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387AAA235478710012C1B2 /* User.swift */; };
-		88387AB6235482560012C1B2 /* ModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387AB5235482560012C1B2 /* ModelsTests.swift */; };
 		88387AB8235482560012C1B2 /* Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88387A8A235478210012C1B2 /* Models.framework */; };
 		88387ABE235482680012C1B2 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387AAC23547F430012C1B2 /* UserTests.swift */; };
 		88387AC1235489970012C1B2 /* KeyedDecodingContainerProtocol+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387AC0235489970012C1B2 /* KeyedDecodingContainerProtocol+Extension.swift */; };
@@ -36,8 +35,6 @@
 		88387AAA235478710012C1B2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		88387AAC23547F430012C1B2 /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		88387AB3235482560012C1B2 /* ModelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		88387AB5235482560012C1B2 /* ModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsTests.swift; sourceTree = "<group>"; };
-		88387AB7235482560012C1B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88387AC0235489970012C1B2 /* KeyedDecodingContainerProtocol+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainerProtocol+Extension.swift"; sourceTree = "<group>"; };
 		88387AC223548A9B0012C1B2 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		88387AC423548C820012C1B2 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
@@ -68,7 +65,6 @@
 			children = (
 				88387A8C235478210012C1B2 /* Models */,
 				88387A97235478210012C1B2 /* ModelsTests */,
-				88387AB4235482560012C1B2 /* ModelsTests */,
 				88387A8B235478210012C1B2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -111,15 +107,6 @@
 				88387AC723548CEB0012C1B2 /* TimeZone.swift */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		88387AB4235482560012C1B2 /* ModelsTests */ = {
-			isa = PBXGroup;
-			children = (
-				88387AB5235482560012C1B2 /* ModelsTests.swift */,
-				88387AB7235482560012C1B2 /* Info.plist */,
-			);
-			path = ModelsTests;
 			sourceTree = "<group>";
 		};
 		88387ABF235489760012C1B2 /* Extensions */ = {
@@ -253,7 +240,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				88387ABE235482680012C1B2 /* UserTests.swift in Sources */,
-				88387AB6235482560012C1B2 /* ModelsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

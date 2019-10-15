@@ -9,6 +9,6 @@
 import Foundation
 
 public struct TimeZone: Codable {
-    let offset: String
-    let description: String
+    let offset: String?
+    let description: String?
 }

@@ -63,44 +63,44 @@ extension User: Codable {
 
 
 public struct Name: Codable {
-    let title: String
-    let first: String
-    let last: String
+    let title: String?
+    let first: String?
+    let last: String?
 }
 
 public struct Login: Codable {
-    let uuid: String
-    let username: String
-    let password: String
-    let salt: String
-    let md5: String
-    let sha1: String
-    let sha256: String
+    let uuid: String?
+    let username: String?
+    let password: String?
+    let salt: String?
+    let md5: String?
+    let sha1: String?
+    let sha256: String?
 }
 
 
 public struct DateOfBirth: Codable {
-    let date: String
-    let age: Int
+    let date: String?
+    let age: Int?
 }
 
 
 public struct RegisteredData: Codable {
-    let date: String
-    let age: Int
+    let date: String?
+    let age: Int?
 }
 
 
 public struct Identifier: Codable {
-    let name: String
-    let value: String
+    let name: String?
+    let value: String?
 }
 
 
 public struct ProfileImage: Codable {
-    let large: String
-    let medium: String
-    let thumbnail: String
+    let large: String?
+    let medium: String?
+    let thumbnail: String?
 }
 
 

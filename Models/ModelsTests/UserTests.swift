@@ -14,7 +14,23 @@ import XCTest
 class UserTests: XCTestCase {
     
     func testJsonParsing() {
-        let json: [String: Any] = [
+        let json = Constant.json
+        do {
+           guard let data = try? serialize(value: json)
+                else { return }
+            let model = try JSONDecoder().decode(User.self, from: data)
+            XCTAssertNotNil(model)
+        } catch {
+            XCTFail("Expected to decode a user entity")
+        }
+    }
+    
+    private func serialize(value: Any) throws -> Data {
+        return try JSONSerialization.data(withJSONObject: value, options: [])
+    }
+    
+    private enum Constant {
+        static let json: [String: Any] = [
             "gender": "male",
             "name": [
                 "title": "mr",
@@ -66,21 +82,6 @@ class UserTests: XCTestCase {
             ],
             "nat": "IE"
         ]
-        
-        do {
-           guard let data = try? serialize(value: json)
-                else { return }
-            let model = try JSONDecoder().decode(User.self, from: data)
-            print(model)
-            XCTAssertNotNil(model)
-        } catch {
-            XCTFail("Expected to decode a user entity")
-        }
     }
-    
-    private func serialize(value: Any) throws -> Data {
-        return try JSONSerialization.data(withJSONObject: value, options: [])
-    }
-    
 }
 

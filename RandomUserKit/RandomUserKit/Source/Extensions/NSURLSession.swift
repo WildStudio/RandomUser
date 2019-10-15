@@ -16,7 +16,6 @@ extension URLSession {
     
     func dataResponse(
         _ request: URLRequest,
-        uploading file: (url: URL, name: String)? = nil,
         completion: @escaping NetworkResponseResultCompletion
     ) {
         print(request)
@@ -26,15 +25,14 @@ extension URLSession {
                 return
             }
             
-            guard let strongSelf = self, let response = response, let data = data else {
+            guard let self = self, let response = response, let data = data else {
                 completion(.failure(NetworkError.unknown))
                 return
             }
             
-            strongSelf.validateNetworkResponse((data, response)) { (validationResult) in
+            self.validateNetworkResponse((data, response)) { (validationResult) in
                 switch validationResult {
                 case .success:
-                    print(response)
                     completion(.success((data)))
                     
                 case .failure(let error):

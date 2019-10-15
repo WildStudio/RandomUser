@@ -17,7 +17,7 @@ public protocol ServiceType {
     
     init(serverConfig: ServerConfigType)
     
-    func fetchUsers(completion: @escaping (_ builds: [User]?, _ error: Error?) -> ())
+    func fetchUsers(results: Int?, completion: @escaping (_ users: [User]?, _ error: Error?) -> ())
 }
 
 extension ServiceType {

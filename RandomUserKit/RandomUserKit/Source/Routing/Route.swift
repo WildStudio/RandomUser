@@ -9,7 +9,7 @@
 import Foundation
 
 enum Route {
-    case users
+    case users(results: Int?)
     
     enum UploadParam: String {
         case image
@@ -19,8 +19,10 @@ enum Route {
     var requestProperties:
         (method: HTTPMethod, path: String, query: [String: Any], file: (name: UploadParam, url: URL)?) {
         switch self {
-        case .users:
-            return (.GET, "/user", [:], nil)
+        case let .users(results):
+            var params: [String: Any] = [:]
+            params["results"] = results
+            return (.GET, "/api", params, nil)
         }
     }
 }

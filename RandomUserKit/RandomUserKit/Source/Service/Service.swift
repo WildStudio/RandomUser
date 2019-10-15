@@ -18,12 +18,14 @@ public struct Service: ServiceType {
     
     public let serverConfig: ServerConfigType
     
+    
     public init(serverConfig: ServerConfigType) {
         self.serverConfig = serverConfig
     }
     
-    public func fetchUsers(completion: @escaping ([User]?, Error?) -> ()) {
-        request(.users) { result in
+    
+    public func fetchUsers(results: Int? = nil, completion: @escaping ([User]?, Error?) -> ()) {
+        request(.users(results: results)) { result in
             switch result {
             case .success(let data):
                 guard let users = self.decodeModels(Keys.results, data) as [User]?
@@ -77,7 +79,7 @@ extension Service {
             let model = try JSONDecoder().decode(M.self, from: data)
             return model
         } catch let error {
-            os_log("Can't decode model", log: Log.networking, type: .error)
+            os_log("Can't decode model", log: Log.networking, type: .error, error.localizedDescription)
             return nil
         }
     }
@@ -93,7 +95,7 @@ extension Service {
             let models = try JSONDecoder().decode([M].self, from: data)
             return models
         } catch let error {
-            os_log("Can't decode models", log: Log.networking, type: .error)
+            os_log("Can't decode models", log: Log.networking, type: .error, error.localizedDescription)
             return nil
         }
     }
