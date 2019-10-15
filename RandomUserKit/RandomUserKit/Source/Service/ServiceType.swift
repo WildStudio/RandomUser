@@ -22,7 +22,7 @@ public protocol ServiceType {
 
 extension ServiceType {
     
-    // Prepares a URL request to be sent to the server.
+    /// Prepares a URL request to be sent to the server.
     ///
     /// - parameter originalRequest: The request that should be prepared.
     /// - parameter query:           Additional query params that should be attached to the request.
