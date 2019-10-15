@@ -28,7 +28,7 @@ public struct Service: ServiceType {
         request(.users(results: results)) { result in
             switch result {
             case .success(let data):
-                guard let users = self.decodeModels(Keys.results, data) as [User]?
+                guard let users = JSON.decodeModels(Keys.results, data) as [User]?
                     else { return }
                 DispatchQueue.main.async {
                     completion(users, nil)
@@ -67,47 +67,6 @@ extension Service {
         )
         
         Service.session.dataResponse(request, completion: completion)
-    }
-    
-    
-    private func decodeModel<M: Decodable>(_ key: String, _ data: Data) -> M? {
-        do {
-            guard let json = decodedData(from: data),
-                let value = json[key]
-                else { return nil }
-            let data = try serialize(value: value)
-            let model = try JSONDecoder().decode(M.self, from: data)
-            return model
-        } catch let error {
-            os_log("Can't decode model", log: Log.networking, type: .error, error.localizedDescription)
-            return nil
-        }
-    }
-    
-    
-    private func decodeModels<M: Decodable>(_ key: String,  _ data: Data) -> [M]? {
-        do {
-            guard let json = decodedData(from: data),
-                let value = json[key]
-                else { return nil }
-            print(value)
-            let data = try serialize(value: value)
-            let models = try JSONDecoder().decode([M].self, from: data)
-            return models
-        } catch let error {
-            os_log("Can't decode models", log: Log.networking, type: .error, error.localizedDescription)
-            return nil
-        }
-    }
-    
-    
-    private func decodedData(from data: Data) -> [String: Any]? {
-        return (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any]
-    }
-    
-    
-    private func serialize(value: Any) throws -> Data {
-        return try JSONSerialization.data(withJSONObject: value, options: [])
     }
     
 }
