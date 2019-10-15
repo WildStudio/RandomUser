@@ -26,6 +26,7 @@ final class ServiceTypeTests: XCTestCase {
         service = Service(serverConfig: serverConfig)
     }
 
+    
     func testDownloadUsersData() {
         
         // Create an expectation for a background download task.
@@ -45,14 +46,16 @@ final class ServiceTypeTests: XCTestCase {
         wait(for: [expectation], timeout: Constant.timeout)
     }
     
+    
     func testDownloadConcreteUsersData() {
-        let expectation = XCTestExpectation(description: "Download 10 users from randomusers.me/api")
+        let expectation = XCTestExpectation(
+            description: "Download 10 users from randomusers.me/api"
+        )
         var data: [User]?
         service.fetchUsers(results: Constant.resultsNumber) { users, _ in
             data = users
             XCTAssertNotNil(users, "No data was downloaded.")
             expectation.fulfill()
-            
         }
         wait(for: [expectation], timeout: Constant.timeout)
         XCTAssertEqual(Constant.resultsNumber, data?.count)
