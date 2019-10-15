@@ -9,18 +9,18 @@
 import Foundation
 
 public struct User {
-    let gender: String?
-    let name: Name?
-    let location: Location?
-    let email: String?
-    let login: Login?
-    let dob: DateOfBirth?
-    let registered: RegisteredData?
-    let phone: String?
-    let cell: String?
-    let id: Identifier?
-    let picture: ProfileImage?
-    let nationality: String?
+    public let gender: String?
+    public let name: Name?
+    public let location: Location?
+    public let email: String?
+    public let login: Login?
+    public let dob: DateOfBirth?
+    public let registered: RegisteredData?
+    public let phone: String?
+    public let cell: String?
+    public let id: Identifier?
+    public let picture: ProfileImage?
+    public let nationality: String?
 }
 
 extension User: Codable {
@@ -63,44 +63,44 @@ extension User: Codable {
 
 
 public struct Name: Codable {
-    let title: String?
-    let first: String?
-    let last: String?
+    public let title: String?
+    public let first: String?
+    public let last: String?
 }
 
 public struct Login: Codable {
-    let uuid: String?
-    let username: String?
-    let password: String?
-    let salt: String?
-    let md5: String?
-    let sha1: String?
-    let sha256: String?
+    public let uuid: String?
+    public let username: String?
+    public let password: String?
+    public let salt: String?
+    public let md5: String?
+    public let sha1: String?
+    public let sha256: String?
 }
 
 
 public struct DateOfBirth: Codable {
-    let date: String?
-    let age: Int?
+    public let date: String?
+    public let age: Int?
 }
 
 
 public struct RegisteredData: Codable {
-    let date: String?
-    let age: Int?
+    public let date: String?
+    public let age: Int?
 }
 
 
 public struct Identifier: Codable {
-    let name: String?
-    let value: String?
+    public let name: String?
+    public let value: String?
 }
 
 
 public struct ProfileImage: Codable {
-    let large: String?
-    let medium: String?
-    let thumbnail: String?
+    public let large: String?
+    public let medium: String?
+    public let thumbnail: String?
 }
 
 

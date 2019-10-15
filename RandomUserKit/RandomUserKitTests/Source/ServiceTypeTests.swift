@@ -33,9 +33,9 @@ final class ServiceTypeTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Download randomusers.me/api")
 
         // Create a background task to download the data
-        service.fetchUsers(results: nil) { users, _ in
+        service.fetchUsers(results: nil) { response in
             // Make sure we downloaded some data.
-            XCTAssertNotNil(users, "No data was downloaded.")
+            XCTAssertNotNil(response, "No data was downloaded.")
             
             // Fulfill the expectation to indicate that the background task has finished successfully.
             expectation.fulfill()
@@ -52,9 +52,14 @@ final class ServiceTypeTests: XCTestCase {
             description: "Download 10 users from randomusers.me/api"
         )
         var data: [User]?
-        service.fetchUsers(results: Constant.resultsNumber) { users, _ in
-            data = users
-            XCTAssertNotNil(users, "No data was downloaded.")
+        service.fetchUsers(results: Constant.resultsNumber) { response in
+            switch response {
+            case .success(let users):
+                 data = users
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            XCTAssertNotNil(data, "No data was downloaded.")
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: Constant.timeout)
