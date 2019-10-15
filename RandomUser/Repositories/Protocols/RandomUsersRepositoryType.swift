@@ -10,5 +10,5 @@ import Foundation
 import Models
 
 protocol RandomUsersRepositoryType {
-   func fetch(completion: @escaping (Result<[User], Error>) -> Void)
+    func fetch(results number: Int?, completion: @escaping (Result<[User], Error>) -> Void)
 }

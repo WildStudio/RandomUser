@@ -21,8 +21,8 @@ class RandomUsersRepository {
 
 extension RandomUsersRepository: RandomUsersRepositoryType {
     
-    func fetch(completion: @escaping (Result<[User], Error>) -> Void) {
-        service.fetchUsers(results: nil) { response  in
+    func fetch(results number: Int? = nil, completion: @escaping (Result<[User], Error>) -> Void) {
+        service.fetchUsers(results: number) { response  in
                        switch response {
                        case .success(let users):
                            completion(.success(users))
