@@ -16,28 +16,37 @@ class HomeViewController: UIViewController {
         static let cellReuseIdentifier = "cell"
     }
     
-    
     @IBOutlet private var tableView: UITableView!
-    private var emptyStateController: EmptyStateViewController?
-    var viewModel = HomeViewModel(repository: RandomUsersRepository(service: Service(serverConfig: ServerConfig(apiBaseUrl: URL(string: "https://randomuser.me/")!))))
     
-    var users: [User] = [] {
+    private var emptyStateController: EmptyStateViewController?
+    var viewModel: HomeViewModel?
+    
+    private var users: [User] = [] {
         didSet { tableView.reloadData() }
     }
     
+    lazy var emptyCell = UITableViewCell()
+        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        viewModel.performFetching()
-        //
-        //        let emptyStateController = EmptyStateViewController()
-        //        self.emptyStateController = emptyStateController
-        //        emptyStateController.delegate = self
-        //        addChild(emptyStateController)
-        //        view.addSubview(emptyStateController.view)
-        //        emptyStateController.didMove(toParent: self)
-        
+        setupTableView()
+        viewModel?.delegate = self
+        viewModel?.performFetching()
     }
+    
+    
+    func configure(with viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -46,17 +55,18 @@ class HomeViewController: UIViewController {
     
 }
 
-extension HomeViewController: UITableViewDelegate {
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfRows(inSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
     
-    func cellForRow(at indexPath: IndexPath) -> UITableViewCell? {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.cellReuseIdentifier)
-            else { return UITableViewCell() }
+            else { return emptyCell }
         
-        cell.textLabel?.text = users[indexPath.row].name?.first
+        let user = users[indexPath.row]
+        cell.textLabel?.text = "\(user.name?.first ?? "emptyField") \(user.name?.last ?? "emptyField")"
         return cell
     }
     
@@ -73,8 +83,7 @@ extension HomeViewController: HomeViewModelDelegate {
 extension HomeViewController: EmptyStateViewControllerDelegate {
     
     func emptyStatesViewControllerTappedMainButton() {
-        viewModel.performFetching()
-        print("Tapped main button")
+        viewModel?.performFetching()
     }
     
 }

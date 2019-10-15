@@ -32,7 +32,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Fuy-XR-exZ"/>
                     <connections>
-                        <outlet property="tableView" destination="W2S-ej-B3Q" id="f9G-vP-bPC"/>
+                        <outlet property="tableView" destination="W2S-ej-B3Q" id="IxP-S4-K2h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
