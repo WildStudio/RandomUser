@@ -18,6 +18,8 @@ class HomeViewModel {
     private let repository: RandomUsersRepositoryType
     private var users: [User]?
     
+    private(set) var title = "Random Users"
+    
     weak var delegate: HomeViewModelDelegate?
     
     
@@ -27,7 +29,7 @@ class HomeViewModel {
     
     
     func performFetching() {
-        repository.fetch { [weak self] result in
+        repository.fetch(results: 50) { [weak self] result in
             self?.handleResult(result)
         }
     }

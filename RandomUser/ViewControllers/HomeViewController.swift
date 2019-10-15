@@ -33,6 +33,7 @@ class HomeViewController: UIViewController {
         setupTableView()
         viewModel?.delegate = self
         viewModel?.performFetching()
+        title = viewModel?.title
     }
     
     

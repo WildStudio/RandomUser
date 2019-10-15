@@ -27,10 +27,10 @@ class RandomUserRepositoryTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: Fetch user
+    // MARK: Fetch single user
     
-    func testFetchReturnsUseRresult() {
-        repository.fetch { result in
+    func testFetchReturnsSingleResult() {
+        repository.fetch(results: 1) { result in
             switch result {
             case .success(let users):
                 XCTAssertEqual(users.count, 1)
@@ -40,4 +40,19 @@ class RandomUserRepositoryTests: XCTestCase {
             }
         }
     }
+    
+    // MARK: Fetch list of users
+    
+    func testFetchReturnsResults(number: Int = 10) {
+        repository.fetch(results: number) { result in
+            switch result {
+            case .success(let users):
+                XCTAssertEqual(users.count, number)
+            case .failure:
+                // The result should not be an error! If so, fail the test and fix it.
+                XCTAssertTrue(false)
+            }
+        }
+    }
+    
 }
