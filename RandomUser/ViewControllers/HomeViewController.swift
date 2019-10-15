@@ -8,6 +8,7 @@
 
 import UIKit
 import Models
+import SDWebImage
 import RandomUserKit
 
 class HomeViewController: UIViewController {
@@ -19,7 +20,7 @@ class HomeViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     private var emptyStateController: EmptyStateViewController?
-    var viewModel: HomeViewModel?
+    private var viewModel: HomeViewModel?
     
     private var users: [User] = [] {
         didSet { tableView.reloadData() }
@@ -62,12 +63,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return users.count
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.cellReuseIdentifier)
             else { return emptyCell }
         
         let user = users[indexPath.row]
         cell.textLabel?.text = "\(user.name?.first ?? "emptyField") \(user.name?.last ?? "emptyField")"
+        
+        if let thumbnail = user.picture?.thumbnail,
+            let imageURL = URL(string: thumbnail) {
+            cell.imageView?.sd_setImage(with: imageURL)
+        }
+
         return cell
     }
     
