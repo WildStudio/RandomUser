@@ -11,6 +11,7 @@ import Models
 
 protocol HomeViewModelDelegate: AnyObject {
     func viewModelFetched(users: [User])
+    func deletedItem(at index: Int, users: [User]) 
 }
 
 class HomeViewModel {
@@ -35,7 +36,14 @@ class HomeViewModel {
     }
     
     
-    func handleResult(_ result: Result<[User], Error>) {
+    func removeUser(at index: Int) {
+        guard let _ = users else { return }
+        users?.remove(at: index)
+        delegate?.deletedItem(at: index, users: users ?? [])
+    }
+    
+    
+    private func handleResult(_ result: Result<[User], Error>) {
         switch result {
         case .success(let users):
             self.users = users

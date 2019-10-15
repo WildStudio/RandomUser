@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     
     private enum Constant {
         static let cellReuseIdentifier = "cell"
+        static let none = "Empty Field"
     }
     
     @IBOutlet private var tableView: UITableView!
@@ -69,7 +70,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             else { return emptyCell }
         
         let user = users[indexPath.row]
-        cell.textLabel?.text = "\(user.name?.first ?? "emptyField") \(user.name?.last ?? "emptyField")"
+        cell.textLabel?.text = "\(user.name?.first ?? Constant.none) \(user.name?.last ?? Constant.none)"
         
         if let thumbnail = user.picture?.thumbnail,
             let imageURL = URL(string: thumbnail) {
@@ -79,9 +80,24 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            viewModel?.removeUser(at: indexPath.row)
+        }
+    }
+    
 }
 
 extension HomeViewController: HomeViewModelDelegate {
+    
+    func deletedItem(at index: Int, users: [User]) {
+        tableView.beginUpdates()
+        self.users = users
+        tableView.deleteRows(at: [IndexPath(item: index, section: 0)], with: .fade)
+        tableView.endUpdates()
+    }
+    
     
     func viewModelFetched(users: [User]) {
         self.users = users
