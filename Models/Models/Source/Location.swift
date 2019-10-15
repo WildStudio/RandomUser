@@ -10,12 +10,12 @@ import Foundation
 
 
 public struct Location {
-    let street: String
-    let city: String
-    let state: String
-    let postcode: String
-    let coordinates: Coordinates?
-    let timezone: TimeZone?
+    public let street: String?
+    public let city: String?
+    public let state: String?
+    public let postcode: String?
+    public let coordinates: Coordinates?
+    public let timezone: TimeZone?
 }
 
 extension Location: Codable {
