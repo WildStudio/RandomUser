@@ -24,18 +24,21 @@ public struct Service: ServiceType {
     }
     
     
-    public func fetchUsers(results: Int? = nil, completion: @escaping ([User]?, Error?) -> ()) {
+    public func fetchUsers(
+        results: Int? = nil,
+        completion: @escaping (Result<[User], Error>) -> Void
+    ) {
         request(.users(results: results)) { result in
             switch result {
             case .success(let data):
                 guard let users = JSON.decodeModels(Keys.results, data) as [User]?
                     else { return }
                 DispatchQueue.main.async {
-                    completion(users, nil)
+                    completion(.success(users))
                 }
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async { completion(nil, error) }
+                DispatchQueue.main.async { completion(.failure(error)) }
             }
         }
     }
@@ -49,7 +52,7 @@ extension Service {
     
     private func request(
         _ route: Route,
-        completion: @escaping (Result<Data, Error>) -> ()
+        completion: @escaping (Result<Data, Error>) -> Void
     ) {
         let properties = route.requestProperties
         

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RandomUserKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,6 +19,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+       guard let navigationController = window?.rootViewController as? UINavigationController,
+            let homeViewController = navigationController.viewControllers.first as? HomeViewController else {
+                fatalError("The initial view controller should be set to a HomeViewController embedded into a UINavigationController!")
+        }
+        let configuration = ServerConfig(apiBaseUrl: URL(string: "https://randomuser.me/API")!)
+        let apiService = Service(serverConfig: configuration)
+        let viewModel =  HomeViewModel(repository: RandomUsersRepository(service: apiService))
+        homeViewController.configure(with: viewModel)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
