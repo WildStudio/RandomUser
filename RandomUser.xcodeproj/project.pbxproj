@@ -28,6 +28,7 @@
 		8856115B2355CD6000FBA78B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856115A2355CD6000FBA78B /* HomeViewModel.swift */; };
 		8856115E2355CDAF00FBA78B /* RandomUsersRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856115D2355CDAF00FBA78B /* RandomUsersRepository.swift */; };
 		885611612355CE0E00FBA78B /* RandomUsersRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885611602355CE0E00FBA78B /* RandomUsersRepositoryType.swift */; };
+		885A53E923572344008CB73C /* HomeViewModelTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53E823572344008CB73C /* HomeViewModelTypeTests.swift */; };
 		88F37E3E2355CB180096A233 /* RandomUserKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E3D2355CB180096A233 /* RandomUserKit.framework */; };
 		88F37E3F2355CB180096A233 /* RandomUserKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E3D2355CB180096A233 /* RandomUserKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		88F37E422355CB1D0096A233 /* Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E412355CB1D0096A233 /* Models.framework */; };
@@ -83,6 +84,7 @@
 		8856115A2355CD6000FBA78B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		8856115D2355CDAF00FBA78B /* RandomUsersRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUsersRepository.swift; sourceTree = "<group>"; };
 		885611602355CE0E00FBA78B /* RandomUsersRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUsersRepositoryType.swift; sourceTree = "<group>"; };
+		885A53E823572344008CB73C /* HomeViewModelTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTypeTests.swift; sourceTree = "<group>"; };
 		88F37E3D2355CB180096A233 /* RandomUserKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RandomUserKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F37E412355CB1D0096A233 /* Models.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Models.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -193,6 +195,7 @@
 		88387A00235470C60012C1B2 /* RandomUserTests */ = {
 			isa = PBXGroup;
 			children = (
+				885A53E72357231A008CB73C /* ViewModels */,
 				885A53E423572259008CB73C /* Repositories */,
 				882F7B0C2355F89000F40ADD /* Mocks */,
 				8825C2F423571F7F0015145B /* Sequence+Unique.swift */,
@@ -233,6 +236,14 @@
 				882F7B0A2355F86700F40ADD /* RandomUserRepositoryTests.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		885A53E72357231A008CB73C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				885A53E823572344008CB73C /* HomeViewModelTypeTests.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		88F37E3C2355CB180096A233 /* Frameworks */ = {
@@ -374,6 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				882F7B102355FA3000F40ADD /* MockConstant.swift in Sources */,
+				885A53E923572344008CB73C /* HomeViewModelTypeTests.swift in Sources */,
 				882F7B0E2355F91100F40ADD /* MockRandomUserService.swift in Sources */,
 				882F7B0B2355F86700F40ADD /* RandomUserRepositoryTests.swift in Sources */,
 				8825C2F323571F180015145B /* Collection+SafeTests.swift in Sources */,

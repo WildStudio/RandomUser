@@ -27,6 +27,7 @@ protocol HomeViewModelType {
     func insertBlacklisted(_ user: User) -> Bool
     func userIsBlackListed(_ user: User) -> Bool
     func performFetching()
+    func handleResult(_ result: Result<[User], Error>) 
 }
 
 class HomeViewModel: HomeViewModelType {
@@ -98,7 +99,7 @@ class HomeViewModel: HomeViewModelType {
     /// Handle the results, to filter them down from the blacklisted ones and remove duplicates.
     /// - Parameters:
     /// - result: A value that represents either a success or a failure, including an associated value in each case.
-    private func handleResult(_ result: Result<[User], Error>) {
+    func handleResult(_ result: Result<[User], Error>) {
         switch result {
         case .success(let users):
             self.users = users
