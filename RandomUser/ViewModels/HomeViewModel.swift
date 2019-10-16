@@ -16,10 +16,18 @@ protocol HomeViewModelDelegate: AnyObject {
 
 class HomeViewModel {
     
-    private let repository: RandomUsersRepositoryType
-    private var users: [User]?
+    private enum Constant {
+        static let navigationBarTitle = "Random Users"
+        static let results = 50
+    }
     
-    private(set) var title = "Random Users"
+    typealias blacklist = (user: User, userID: UUID)
+    
+    private var blacklisted = [User]()
+    private var users = [User]()
+    private var userIDs = Set<UUID>()
+    private let repository: RandomUsersRepositoryType
+    private(set) var title = Constant.navigationBarTitle
     
     weak var delegate: HomeViewModelDelegate?
     
@@ -30,27 +38,53 @@ class HomeViewModel {
     
     
     func performFetching() {
-        repository.fetch(results: 50) { [weak self] result in
+        repository.fetch(
+            results: Constant.results
+        ) { [weak self] result in
             self?.handleResult(result)
         }
     }
     
     
     func removeUser(at index: Int) {
-        guard let _ = users else { return }
-        users?.remove(at: index)
-        delegate?.deletedItem(at: index, users: users ?? [])
+        guard let user = users[safe: index] else { return }
+        
+        if insertBlacklisted(user) {
+            users.remove(at: index)
+            delegate?.deletedItem(at: index, users: users)
+        }
     }
     
     
     private func handleResult(_ result: Result<[User], Error>) {
         switch result {
         case .success(let users):
-            self.users = users
-            delegate?.viewModelFetched(users: users)
+            self.users = users.filter { !self.userIsBlackListed($0) }
+            delegate?.viewModelFetched(users: self.users)
         case .failure(let error):
+            // TODO: handle the error
             print(error)
         }
+    }
+    
+}
+
+extension HomeViewModel {
+    
+    /// Returns a Boolean value that indicates whether a given user  can be inserted into the blacklist..
+    func insertBlacklisted(_ user: User) -> Bool {
+        blacklisted.append(user)
+        guard let ID = user.userUUID
+            else { return false }
+        let inserted = userIDs.insert(ID).inserted
+        return inserted ? true : false
+    }
+    
+    
+    func userIsBlackListed(_ user: User) -> Bool {
+        guard let ID = user.userUUID
+            else { return false }
+        return userIDs.contains(ID)
     }
     
 }
