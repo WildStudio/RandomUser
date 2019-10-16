@@ -11,7 +11,7 @@ import Models
 
 protocol HomeViewModelDelegate: AnyObject {
     func viewModelFetched(users: [User])
-    func deletedItem(at index: Int, users: [User]) 
+    func deletedItem(at index: Int, users: [User])
 }
 
 class HomeViewModel {
@@ -45,6 +45,29 @@ class HomeViewModel {
         }
     }
     
+    /// Filter the user list with a given string with a search scope that includes name, surname and email
+    /// - Parameters:
+    ///     - text: the filter term
+    func updateSearchResults(for text: String) -> [User] {
+    
+        // We first filter based on name, username, and email :
+        let nameResults = users
+            .filter { ($0.name?.first?.lowercased().contains(text.lowercased()) ?? false) }
+          let surnameResults = users
+            .filter { ($0.name?.last?.lowercased().contains(text.lowercased()) ?? false) }
+        let emailResults = users
+            .filter { ($0.email?.lowercased().contains(text.lowercased()) ?? false) }
+      
+        // Then we convert each array to a set to be able to combine them.
+        let set = Set(nameResults)
+        let unionNameAndSurname = set.union(surnameResults)
+        let union = unionNameAndSurname.union(emailResults)
+        
+        // Finally convert to an Array
+        return Array(union)
+
+    }
+    
     
     func removeUser(at index: Int) {
         guard let user = users[safe: index] else { return }
@@ -71,7 +94,7 @@ class HomeViewModel {
 
 extension HomeViewModel {
     
-    /// Returns a Boolean value that indicates whether a given user  can be inserted into the blacklist..
+    /// Returns a Boolean value that indicates whether a given user  can be inserted into the blacklist.
     func insertBlacklisted(_ user: User) -> Bool {
         blacklisted.append(user)
         guard let ID = user.userUUID

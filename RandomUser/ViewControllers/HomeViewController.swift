@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     
     private enum Constant {
         static let cellReuseIdentifier = "cell"
+        static let searchBarPlaceholder = "Start typing to filter users..."
     }
     
     @IBOutlet private var tableView: UITableView!
@@ -64,7 +65,7 @@ class HomeViewController: UIViewController {
     private func setupSearchController() {
         search.searchResultsUpdater = self
         search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Type something here to search"
+        search.searchBar.placeholder = Constant.searchBarPlaceholder
         navigationItem.searchController = search
     }
     
@@ -118,6 +119,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - View Model delegate
+
 extension HomeViewController: HomeViewModelDelegate {
     
     func deletedItem(at index: Int, users: [User]) {
@@ -142,14 +145,14 @@ extension HomeViewController: EmptyStateViewControllerDelegate {
     
 }
 
+// MARK: - UISearchResultsUpdating
+
 extension HomeViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text
             else { return }
-        filteredData = users.filter {
-            ($0.name?.first?.lowercased().contains(text.lowercased()) ?? false)
-        }
+        filteredData = viewModel?.updateSearchResults(for: text) ?? []
         tableView.reloadData()
     }
     
