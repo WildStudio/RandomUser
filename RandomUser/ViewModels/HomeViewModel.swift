@@ -44,6 +44,7 @@ class HomeViewModel: HomeViewModelType {
         }
     }
     
+    /// TODO: - Reduce time complexity
     /// Filter the user list with a given string with a search scope that includes name, surname and email
     /// - Parameters:
     ///     - text: the filter term

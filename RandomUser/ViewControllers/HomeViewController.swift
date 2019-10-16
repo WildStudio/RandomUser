@@ -23,8 +23,8 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
-    let search = UISearchController(searchResultsController: nil)
-    private var emptyStateController: EmptyStateViewController?
+    var search: UISearchController?
+    lazy private var emptyStateController = EmptyStateViewController()
     private var viewModel: HomeViewModelType?
     
     private var filteredData = [User]()
@@ -33,11 +33,11 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     }
     
     private var isSearchBarEmpty: Bool {
-        search.searchBar.text?.isEmpty ?? true
+        search?.searchBar.text?.isEmpty ?? true
     }
     
     private var isFiltering: Bool {
-        search.isActive && !isSearchBarEmpty
+        search?.isActive ?? false && !isSearchBarEmpty
     }
     
     lazy var emptyCell = UITableViewCell()
@@ -45,10 +45,10 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addEmptyState()
         setupTableView()
         setupSearchController()
         viewModel?.delegate = self
-        viewModel?.performFetching()
         title = viewModel?.title
     }
     
@@ -65,18 +65,31 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
         tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
     }
     
+    private func addEmptyState() {
+        emptyStateController.delegate = self
+        embed(emptyStateController)
+        embedView(emptyStateController.view, in: view)
+    }
+
+
+    private func removeEmptyState() {
+        remove(emptyStateController)
+    }
+
     
     private func setupSearchController() {
-        search.searchResultsUpdater = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = Constant.searchBarPlaceholder
+        let searchController = UISearchController(searchResultsController: nil)
+        search = searchController
+        search?.searchResultsUpdater = self
+        search?.obscuresBackgroundDuringPresentation = false
+        search?.searchBar.placeholder = Constant.searchBarPlaceholder
         navigationItem.searchController = search
     }
     
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        emptyStateController?.view.frame = view.bounds
+        emptyStateController.view.frame = view.bounds
     }
     
 }
@@ -150,6 +163,7 @@ extension HomeViewController: HomeViewModelDelegate {
     func onFetchCompleted(with users: [User]) {
         activityIndicator.stopAnimating()
         tableView.isHidden = false
+        removeEmptyState()
         self.users = users
     }
     

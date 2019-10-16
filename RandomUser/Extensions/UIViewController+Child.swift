@@ -19,6 +19,19 @@ extension UIViewController {
         child.didMove(toParent: self)
     }
     
+    
+    // Add child view.
+    ///
+    /// - Parameters:
+    ///   - view: The view to be added.
+    ///   - container: The container view.
+    func embedView(_ view: UIView, in container: UIView) {
+        view.removeFromSuperview()
+        container.addSubview(view)
+        view.addConstraintsToFillSuperview()
+    }
+    
+    
     /// Remove child viewcontroller.
     ///
     /// - Parameter child: The child controller.

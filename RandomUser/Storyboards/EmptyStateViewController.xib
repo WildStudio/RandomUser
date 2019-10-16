@@ -37,6 +37,9 @@
                                     <integer key="value" value="20"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="didTapMainActionButton:" destination="-1" eventType="touchUpInside" id="odw-1B-T8K"/>
+                            </connections>
                         </button>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="STp-fF-Au6">
                             <rect key="frame" x="16" y="480.5" width="382" height="57"/>
@@ -79,7 +82,7 @@
                 <constraint firstItem="rCb-Bu-Tif" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="pIL-Zy-gey"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <point key="canvasLocation" x="139" y="109"/>
+            <point key="canvasLocation" x="-286" y="106"/>
         </view>
     </objects>
 </document>
