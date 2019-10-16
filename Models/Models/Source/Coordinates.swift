@@ -9,7 +9,11 @@
 import Foundation
 
 public struct Coordinates: Codable {
-    let latitude: String?
-    let longitude: String?
+    public let latitude: String?
+    public let longitude: String?
+}
+
+extension Coordinates: Equatable {
+    
 }
 

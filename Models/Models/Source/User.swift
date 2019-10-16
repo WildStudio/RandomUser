@@ -9,6 +9,7 @@
 import Foundation
 
 public struct User {
+    
     public let gender: String?
     public let name: Name?
     public let location: Location?
@@ -31,6 +32,7 @@ public struct User {
         }
         return uuid
     }
+    
 }
 
 extension User: Codable {
@@ -72,45 +74,26 @@ extension User: Codable {
 }
 
 
-public struct Name: Codable {
-    public let title: String?
-    public let first: String?
-    public let last: String?
+extension User: Hashable {
+    
+    public static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.gender == rhs.gender
+        && lhs.name == rhs.name
+        && lhs.location == rhs.location
+        && lhs.login == rhs.login
+        && lhs.dob == rhs.dob
+        && lhs.registered == rhs.registered
+        && lhs.phone == rhs.phone
+        && lhs.cell == rhs.cell
+        && lhs.id == rhs.id
+        && lhs.picture == rhs.picture
+        && lhs.nationality == rhs.nationality
+    }
+    
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(userUUID)
+    }
+    
 }
-
-public struct Login: Codable {
-    public let uuid: String?
-    public let username: String?
-    public let password: String?
-    public let salt: String?
-    public let md5: String?
-    public let sha1: String?
-    public let sha256: String?
-}
-
-
-public struct DateOfBirth: Codable {
-    public let date: String?
-    public let age: Int?
-}
-
-
-public struct RegisteredData: Codable {
-    public let date: String?
-    public let age: Int?
-}
-
-
-public struct Identifier: Codable {
-    public let name: String?
-    public let value: String?
-}
-
-
-public struct ProfileImage: Codable {
-    public let large: String?
-    public let medium: String?
-    public let thumbnail: String?
-}
-
 
