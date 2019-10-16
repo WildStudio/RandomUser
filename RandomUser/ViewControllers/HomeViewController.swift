@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
     
     let search = UISearchController(searchResultsController: nil)
     private var emptyStateController: EmptyStateViewController?
-    private var viewModel: HomeViewModel?
+    private var viewModel: HomeViewModelType?
     
     private var filteredData = [User]()
     private var users: [User] = [] {
@@ -50,7 +50,7 @@ class HomeViewController: UIViewController {
     }
     
     
-    func configure(with viewModel: HomeViewModel) {
+    func configure(with viewModel: HomeViewModelType) {
         self.viewModel = viewModel
     }
     

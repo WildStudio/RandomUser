@@ -14,7 +14,22 @@ protocol HomeViewModelDelegate: AnyObject {
     func deletedItem(at index: Int, users: [User])
 }
 
-class HomeViewModel {
+protocol HomeViewModelType {
+    
+    var delegate: HomeViewModelDelegate? { get set }
+    var title: String { get }
+    var blacklisted: [User] { get }
+    var users: [User] { get }
+    var userIDs: Set<UUID> { get }
+    
+    func removeUser(at index: Int)
+    func updateSearchResults(for text: String) -> [User]
+    func insertBlacklisted(_ user: User) -> Bool
+    func userIsBlackListed(_ user: User) -> Bool
+    func performFetching()
+}
+
+class HomeViewModel: HomeViewModelType {
     
     private enum Constant {
         static let navigationBarTitle = "Random Users"
@@ -23,9 +38,9 @@ class HomeViewModel {
     
     typealias blacklist = (user: User, userID: UUID)
     
-    private var blacklisted = [User]()
-    private var users = [User]()
-    private var userIDs = Set<UUID>()
+    private(set) var blacklisted = [User]()
+    private(set) var users = [User]()
+    private(set) var userIDs = Set<UUID>()
     private let repository: RandomUsersRepositoryType
     private(set) var title = Constant.navigationBarTitle
     
@@ -68,7 +83,9 @@ class HomeViewModel {
 
     }
     
-    
+    /// Safely access to the user with index inserted in the blacklist and if the iserion is succesful delete the user and notify.
+    /// - Parameters:
+    /// - index: the array lookup index.
     func removeUser(at index: Int) {
         guard let user = users[safe: index] else { return }
         
@@ -78,11 +95,15 @@ class HomeViewModel {
         }
     }
     
-    
+    /// Handle the results, to filter them down from the blacklisted ones and remove duplicates.
+    /// - Parameters:
+    /// - result: A value that represents either a success or a failure, including an associated value in each case.
     private func handleResult(_ result: Result<[User], Error>) {
         switch result {
         case .success(let users):
-            self.users = users.filter { !self.userIsBlackListed($0) }
+            self.users = users
+                .filter { !self.userIsBlackListed($0) }
+                .uniqueElements
             delegate?.viewModelFetched(users: self.users)
         case .failure(let error):
             // TODO: handle the error
