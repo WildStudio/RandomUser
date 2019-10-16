@@ -43,9 +43,10 @@ class HomeViewModel: HomeViewModelType {
     private(set) var blacklisted = [User]()
     private(set) var users = [User]()
     private(set) var userIDs = Set<UUID>()
-    private let repository: RandomUsersRepositoryType
     private(set) var title = Constant.navigationBarTitle
-    private var isFetching: Bool = false
+    private(set) var isFetching: Bool = false
+    
+    private let repository: RandomUsersRepositoryType
     
     weak var delegate: HomeViewModelDelegate?
     
@@ -116,7 +117,6 @@ class HomeViewModel: HomeViewModelType {
         case .failure(let error):
              isFetching = false
              delegate?.onFetchFailed(with: error.localizedDescription)
-            print(error)
         }
     }
     

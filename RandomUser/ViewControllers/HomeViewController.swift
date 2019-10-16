@@ -11,10 +11,12 @@ import Models
 import SDWebImage
 import RandomUserKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, AlertControllerDisplayer {
     
     private enum Constant {
         static let cellReuseIdentifier = "cell"
+        static let alertTitle = "Something went wrong"
+        static let alertOK = "OK"
         static let searchBarPlaceholder = "Start typing to filter users..."
     }
     
@@ -124,7 +126,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 extension HomeViewController: HomeViewModelDelegate {
     
     func onFetchFailed(with reason: String) {
-        
+        let action = UIAlertAction(title: Constant.alertOK, style: .default)
+        displayAlert(with: Constant.alertTitle , message: reason, actions: [action])
     }
     
     
@@ -188,3 +191,4 @@ private extension HomeViewController {
     }
     
 }
+
