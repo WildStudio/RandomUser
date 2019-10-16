@@ -21,6 +21,16 @@ public struct User {
     public let id: Identifier?
     public let picture: ProfileImage?
     public let nationality: String?
+    
+    public var userUUID: UUID? {
+        guard let login = login,
+            let loginID = login.uuid,
+            let uuid = UUID(uuidString: loginID)
+            else {
+                return nil
+        }
+        return uuid
+    }
 }
 
 extension User: Codable {
