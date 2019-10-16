@@ -123,6 +123,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: HomeViewModelDelegate {
     
+    func onFetchFailed(with reason: String) {
+        
+    }
+    
+    
     func deletedItem(at index: Int, users: [User]) {
         tableView.beginUpdates()
         self.users = users
@@ -131,7 +136,7 @@ extension HomeViewController: HomeViewModelDelegate {
     }
     
     
-    func viewModelFetched(users: [User]) {
+    func onFetchCompleted(with users: [User]) {
         self.users = users
     }
     
@@ -158,3 +163,28 @@ extension HomeViewController: UISearchResultsUpdating {
     
 }
 
+
+private extension HomeViewController {
+    
+    func isLoadingCell(for indexPath: IndexPath) -> Bool {
+        guard let viewModel = self.viewModel
+            else { return false }
+        return indexPath.row >= viewModel.users.count
+    }
+    
+    
+    func visibleIndexPathsToReload(intersecting indexPaths: [IndexPath]) -> [IndexPath] {
+        let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows ?? []
+        let indexPathsIntersection = Set(indexPathsForVisibleRows).intersection(indexPaths)
+        return Array(indexPathsIntersection)
+    }
+    
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: isLoadingCell) {
+            viewModel?.performFetching()
+        }
+        
+    }
+    
+}

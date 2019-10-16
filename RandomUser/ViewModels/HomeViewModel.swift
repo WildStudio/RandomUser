@@ -10,8 +10,9 @@ import Foundation
 import Models
 
 protocol HomeViewModelDelegate: AnyObject {
-    func viewModelFetched(users: [User])
+    func onFetchCompleted(with users: [User])
     func deletedItem(at index: Int, users: [User])
+    func onFetchFailed(with reason: String)
 }
 
 protocol HomeViewModelType {
@@ -44,6 +45,7 @@ class HomeViewModel: HomeViewModelType {
     private(set) var userIDs = Set<UUID>()
     private let repository: RandomUsersRepositoryType
     private(set) var title = Constant.navigationBarTitle
+    private var isFetching: Bool = false
     
     weak var delegate: HomeViewModelDelegate?
     
@@ -54,6 +56,11 @@ class HomeViewModel: HomeViewModelType {
     
     
     func performFetching() {
+        guard !isFetching else {
+          return
+        }
+        
+        isFetching = true
         repository.fetch(
             results: Constant.results
         ) { [weak self] result in
@@ -105,9 +112,10 @@ class HomeViewModel: HomeViewModelType {
             self.users = users
                 .filter { !self.userIsBlackListed($0) }
                 .uniqueElements
-            delegate?.viewModelFetched(users: self.users)
+            delegate?.onFetchCompleted(with: self.users)
         case .failure(let error):
-            // TODO: handle the error
+             isFetching = false
+             delegate?.onFetchFailed(with: error.localizedDescription)
             print(error)
         }
     }
