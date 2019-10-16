@@ -16,7 +16,12 @@ class ThumbnailTableViewCell: UITableViewCell {
         static let none = "Empty Field"
     }
     
-    func configure(with user: User) {
+    func configure(with user: User?) {
+        guard let user = user
+            else  {
+                return
+        }
+        
         textLabel?.text = "\(user.name?.first ?? Constant.none) \(user.name?.last ?? Constant.none)"
         
         if let thumbnail = user.picture?.thumbnail,

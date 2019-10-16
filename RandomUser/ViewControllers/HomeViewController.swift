@@ -58,7 +58,7 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     
     
     private func setupTableView() {
-        tableView.delegate = self
+        tableView.prefetchDataSource = self
         tableView.dataSource = self
         tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
     }
@@ -103,7 +103,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             user = users[indexPath.row]
         }
         
-        cell.configure(with: user)
+        if isLoadingCell(for: indexPath) {
+            cell.configure(with: .none)
+        } else  {
+            cell.configure(with: user)
+        }
+        
         
         return cell
     }
@@ -167,12 +172,12 @@ extension HomeViewController: UISearchResultsUpdating {
 }
 
 
-private extension HomeViewController {
+extension HomeViewController: UITableViewDataSourcePrefetching {
     
     func isLoadingCell(for indexPath: IndexPath) -> Bool {
         guard let viewModel = self.viewModel
             else { return false }
-        return indexPath.row >= viewModel.users.count
+        return indexPath.row >= viewModel.users.count - 5
     }
     
     

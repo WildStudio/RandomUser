@@ -9,28 +9,6 @@
 import Foundation
 import Models
 
-protocol HomeViewModelDelegate: AnyObject {
-    func onFetchCompleted(with users: [User])
-    func deletedItem(at index: Int, users: [User])
-    func onFetchFailed(with reason: String)
-}
-
-protocol HomeViewModelType {
-    
-    var delegate: HomeViewModelDelegate? { get set }
-    var title: String { get }
-    var blacklisted: [User] { get }
-    var users: [User] { get }
-    var userIDs: Set<UUID> { get }
-    
-    func removeUser(at index: Int)
-    func updateSearchResults(for text: String) -> [User]
-    func insertBlacklisted(_ user: User) -> Bool
-    func userIsBlackListed(_ user: User) -> Bool
-    func performFetching()
-    func handleResult(_ result: Result<[User], Error>) 
-}
-
 class HomeViewModel: HomeViewModelType {
     
     private enum Constant {
@@ -57,10 +35,7 @@ class HomeViewModel: HomeViewModelType {
     
     
     func performFetching() {
-        guard !isFetching else {
-          return
-        }
-        
+        guard !isFetching else { return }
         isFetching = true
         repository.fetch(
             results: Constant.results
@@ -73,15 +48,15 @@ class HomeViewModel: HomeViewModelType {
     /// - Parameters:
     ///     - text: the filter term
     func updateSearchResults(for text: String) -> [User] {
-    
+        
         // We first filter based on name, username, and email :
         let nameResults = users
             .filter { ($0.name?.first?.lowercased().contains(text.lowercased()) ?? false) }
-          let surnameResults = users
+        let surnameResults = users
             .filter { ($0.name?.last?.lowercased().contains(text.lowercased()) ?? false) }
         let emailResults = users
             .filter { ($0.email?.lowercased().contains(text.lowercased()) ?? false) }
-      
+        
         // Then we convert each array to a set to be able to combine them.
         let set = Set(nameResults)
         let unionNameAndSurname = set.union(surnameResults)
@@ -89,7 +64,7 @@ class HomeViewModel: HomeViewModelType {
         
         // Finally convert to an Array
         return Array(union)
-
+        
     }
     
     /// Safely access to the user with index inserted in the blacklist and if the iserion is succesful delete the user and notify.
@@ -110,17 +85,20 @@ class HomeViewModel: HomeViewModelType {
     func handleResult(_ result: Result<[User], Error>) {
         switch result {
         case .success(let users):
-            self.users = users
+            isFetching = false
+            let newUsers = users
                 .filter { !self.userIsBlackListed($0) }
                 .uniqueElements
+            self.users.append(contentsOf: (newUsers))
             delegate?.onFetchCompleted(with: self.users)
         case .failure(let error):
-             isFetching = false
-             delegate?.onFetchFailed(with: error.localizedDescription)
+            isFetching = false
+            delegate?.onFetchFailed(with: error.localizedDescription)
         }
     }
     
 }
+
 
 extension HomeViewModel {
     
