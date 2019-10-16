@@ -39,3 +39,17 @@ extension Location: Codable {
         timezone = try? container.decodeIfPresent(TimeZone.self, forKey: .timezone)
     }
 }
+
+
+extension Location: Equatable {
+    
+    public static func == (lhs: Location, rhs: Location) -> Bool {
+        return lhs.street == rhs.street
+        && lhs.city == rhs.city
+        && lhs.state == rhs.state
+        && lhs.postcode == rhs.postcode
+        && lhs.coordinates == rhs.coordinates
+        && lhs.timezone == rhs.timezone
+    }
+    
+}

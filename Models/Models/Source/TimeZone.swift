@@ -12,3 +12,12 @@ public struct TimeZone: Codable {
     public let offset: String?
     public let description: String?
 }
+
+extension TimeZone: Equatable {
+    
+    public static func == (lhs: TimeZone, rhs: TimeZone) -> Bool {
+        return lhs.offset == rhs.offset
+        && lhs.description == rhs.description
+    }
+    
+}

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8825C2E523570F0C0015145B /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2E423570F0C0015145B /* Name.swift */; };
+		8825C2E7235710880015145B /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2E6235710880015145B /* Login.swift */; };
+		8825C2E9235710FC0015145B /* DateOfBirth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2E8235710FC0015145B /* DateOfBirth.swift */; };
+		8825C2EB235711500015145B /* RegisteredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2EA235711500015145B /* RegisteredData.swift */; };
+		8825C2ED235711900015145B /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2EC235711900015145B /* ProfileImage.swift */; };
+		8825C2EF235712080015145B /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2EE235712080015145B /* Identifier.swift */; };
 		88387A9B235478210012C1B2 /* Models.h in Headers */ = {isa = PBXBuildFile; fileRef = 88387A8D235478210012C1B2 /* Models.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88387AAB235478710012C1B2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387AAA235478710012C1B2 /* User.swift */; };
 		88387AB8235482560012C1B2 /* Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88387A8A235478210012C1B2 /* Models.framework */; };
@@ -28,6 +34,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8825C2E423570F0C0015145B /* Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Name.swift; sourceTree = "<group>"; };
+		8825C2E6235710880015145B /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		8825C2E8235710FC0015145B /* DateOfBirth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOfBirth.swift; sourceTree = "<group>"; };
+		8825C2EA235711500015145B /* RegisteredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredData.swift; sourceTree = "<group>"; };
+		8825C2EC235711900015145B /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
+		8825C2EE235712080015145B /* Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
 		88387A8A235478210012C1B2 /* Models.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Models.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88387A8D235478210012C1B2 /* Models.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
 		88387A8E235478210012C1B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -105,6 +117,12 @@
 				88387AC223548A9B0012C1B2 /* Location.swift */,
 				88387AC423548C820012C1B2 /* Coordinates.swift */,
 				88387AC723548CEB0012C1B2 /* TimeZone.swift */,
+				8825C2E423570F0C0015145B /* Name.swift */,
+				8825C2E6235710880015145B /* Login.swift */,
+				8825C2E8235710FC0015145B /* DateOfBirth.swift */,
+				8825C2EA235711500015145B /* RegisteredData.swift */,
+				8825C2EC235711900015145B /* ProfileImage.swift */,
+				8825C2EE235712080015145B /* Identifier.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -227,9 +245,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8825C2E9235710FC0015145B /* DateOfBirth.swift in Sources */,
+				8825C2E7235710880015145B /* Login.swift in Sources */,
+				8825C2E523570F0C0015145B /* Name.swift in Sources */,
+				8825C2ED235711900015145B /* ProfileImage.swift in Sources */,
+				8825C2EF235712080015145B /* Identifier.swift in Sources */,
 				88387AAB235478710012C1B2 /* User.swift in Sources */,
 				88387AC323548A9B0012C1B2 /* Location.swift in Sources */,
 				88387AC823548CEB0012C1B2 /* TimeZone.swift in Sources */,
+				8825C2EB235711500015145B /* RegisteredData.swift in Sources */,
 				88387AC1235489970012C1B2 /* KeyedDecodingContainerProtocol+Extension.swift in Sources */,
 				88387AC523548C820012C1B2 /* Coordinates.swift in Sources */,
 			);

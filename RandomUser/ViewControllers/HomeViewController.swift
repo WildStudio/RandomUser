@@ -15,30 +15,42 @@ class HomeViewController: UIViewController {
     
     private enum Constant {
         static let cellReuseIdentifier = "cell"
+        static let searchBarPlaceholder = "Start typing to filter users..."
     }
     
     @IBOutlet private var tableView: UITableView!
     
+    let search = UISearchController(searchResultsController: nil)
     private var emptyStateController: EmptyStateViewController?
-    private var viewModel: HomeViewModel?
+    private var viewModel: HomeViewModelType?
     
+    private var filteredData = [User]()
     private var users: [User] = [] {
         didSet { tableView.reloadData() }
     }
     
+    private var isSearchBarEmpty: Bool {
+        search.searchBar.text?.isEmpty ?? true
+    }
+    
+    private var isFiltering: Bool {
+        search.isActive && !isSearchBarEmpty
+    }
+    
     lazy var emptyCell = UITableViewCell()
-        
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupSearchController()
         viewModel?.delegate = self
         viewModel?.performFetching()
         title = viewModel?.title
     }
     
     
-    func configure(with viewModel: HomeViewModel) {
+    func configure(with viewModel: HomeViewModelType) {
         self.viewModel = viewModel
     }
     
@@ -46,7 +58,15 @@ class HomeViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
+        tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
+    }
+    
+    
+    private func setupSearchController() {
+        search.searchResultsUpdater = self
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = Constant.searchBarPlaceholder
+        navigationItem.searchController = search
     }
     
     
@@ -57,31 +77,59 @@ class HomeViewController: UIViewController {
     
 }
 
+// MARK: - Table view data source
+
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering { return filteredData.count }
         return users.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.cellReuseIdentifier)
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: Constant.cellReuseIdentifier
+            ) as? ThumbnailTableViewCell
             else { return emptyCell }
         
-        let user = users[indexPath.row]
-        cell.textLabel?.text = "\(user.name?.first ?? "emptyField") \(user.name?.last ?? "emptyField")"
+        let user: User
         
-        if let thumbnail = user.picture?.thumbnail,
-            let imageURL = URL(string: thumbnail) {
-            cell.imageView?.sd_setImage(with: imageURL)
+        if isFiltering {
+            user = filteredData[indexPath.row]
+        } else {
+            user = users[indexPath.row]
         }
-
+        
+        cell.configure(with: user)
+        
         return cell
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+    ) {
+        guard !isFiltering else { return }
+        if editingStyle == .delete {
+            viewModel?.removeUser(at: indexPath.row)
+        }
     }
     
 }
 
+// MARK: - View Model delegate
+
 extension HomeViewController: HomeViewModelDelegate {
+    
+    func deletedItem(at index: Int, users: [User]) {
+        tableView.beginUpdates()
+        self.users = users
+        tableView.deleteRows(at: [IndexPath(item: index, section: 0)], with: .top)
+        tableView.endUpdates()
+    }
+    
     
     func viewModelFetched(users: [User]) {
         self.users = users
@@ -93,6 +141,19 @@ extension HomeViewController: EmptyStateViewControllerDelegate {
     
     func emptyStatesViewControllerTappedMainButton() {
         viewModel?.performFetching()
+    }
+    
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension HomeViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text
+            else { return }
+        filteredData = viewModel?.updateSearchResults(for: text) ?? []
+        tableView.reloadData()
     }
     
 }
