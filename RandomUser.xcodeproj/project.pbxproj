@@ -193,11 +193,11 @@
 		88387A00235470C60012C1B2 /* RandomUserTests */ = {
 			isa = PBXGroup;
 			children = (
+				885A53E423572259008CB73C /* Repositories */,
 				882F7B0C2355F89000F40ADD /* Mocks */,
-				882F7B0A2355F86700F40ADD /* RandomUserRepositoryTests.swift */,
-				88387A03235470C60012C1B2 /* Info.plist */,
-				8825C2F223571F180015145B /* Collection+SafeTests.swift */,
 				8825C2F423571F7F0015145B /* Sequence+Unique.swift */,
+				8825C2F223571F180015145B /* Collection+SafeTests.swift */,
+				88387A03235470C60012C1B2 /* Info.plist */,
 			);
 			path = RandomUserTests;
 			sourceTree = "<group>";
@@ -225,6 +225,14 @@
 				885611602355CE0E00FBA78B /* RandomUsersRepositoryType.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		885A53E423572259008CB73C /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				882F7B0A2355F86700F40ADD /* RandomUserRepositoryTests.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		88F37E3C2355CB180096A233 /* Frameworks */ = {
