@@ -8,7 +8,7 @@
 
 import RandomUserKit
 import Models
-@testable import RandomUser
+import RandomUser
 
 struct MockServerConfig: ServerConfigType {
     public var apiBaseUrl: URL = URL(string: "https://randomuser.me/")!
