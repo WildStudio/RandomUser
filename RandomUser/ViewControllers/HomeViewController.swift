@@ -21,6 +21,7 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     }
     
     @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
     let search = UISearchController(searchResultsController: nil)
     private var emptyStateController: EmptyStateViewController?
@@ -60,6 +61,7 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     private func setupTableView() {
         tableView.prefetchDataSource = self
         tableView.dataSource = self
+        tableView.isHidden = true
         tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
     }
     
@@ -131,6 +133,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 extension HomeViewController: HomeViewModelDelegate {
     
     func onFetchFailed(with reason: String) {
+        activityIndicator.stopAnimating()
         let action = UIAlertAction(title: Constant.alertOK, style: .default)
         displayAlert(with: Constant.alertTitle , message: reason, actions: [action])
     }
@@ -145,6 +148,8 @@ extension HomeViewController: HomeViewModelDelegate {
     
     
     func onFetchCompleted(with users: [User]) {
+        activityIndicator.stopAnimating()
+        tableView.isHidden = false
         self.users = users
     }
     

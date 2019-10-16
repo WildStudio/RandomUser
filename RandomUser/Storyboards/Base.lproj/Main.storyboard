@@ -19,19 +19,25 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="0va-Rx-Uwu">
+                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="W2S-ej-B3Q" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="GVp-AA-B4G"/>
                             <constraint firstItem="W2S-ej-B3Q" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="NFf-Ym-eKU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="W2S-ej-B3Q" secondAttribute="trailing" id="Ofe-f8-AJA"/>
+                            <constraint firstItem="0va-Rx-Uwu" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="b4p-Nk-YEn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="W2S-ej-B3Q" secondAttribute="bottom" id="cpN-Wd-VV5"/>
+                            <constraint firstItem="0va-Rx-Uwu" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="pZo-iC-ELM"/>
                             <constraint firstItem="W2S-ej-B3Q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="xTj-OZ-CAd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Fuy-XR-exZ"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="0va-Rx-Uwu" id="3VC-nK-L14"/>
                         <outlet property="tableView" destination="W2S-ej-B3Q" id="IxP-S4-K2h"/>
                     </connections>
                 </viewController>
