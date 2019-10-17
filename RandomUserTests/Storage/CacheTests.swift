@@ -23,11 +23,37 @@ class CacheTests: XCTestCase {
         super.tearDown()
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testFileIsCached() {
+        // Given, When
+        try? cache.saveToDisk(users: [MockConstant.user])
+        
+        // Then
+        XCTAssertTrue(cache.isFilePersisted())
     }
 
+    
+    func testFileIsLoadedAndUsersArePresent() {
+        // Given
+        try? cache.saveToDisk(users: [MockConstant.user])
+        
+        // When
+        let users = try? cache.loadFromDisk()
+        
+        // Then
+        XCTAssertEqual(users?.count, 1)
+    }
+    
+    
+    func testFileIsRemovedFromCache() {
+        // Given
+        try? cache.saveToDisk(users: [MockConstant.user])
+        
+        // When
+        let users = try? cache.loadFromDisk()
+        
+        // Then
+        XCTAssertEqual(users?.count, 1)
+    }
+    
 }
