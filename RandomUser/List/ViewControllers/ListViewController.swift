@@ -9,7 +9,6 @@
 import UIKit
 import Models
 import SDWebImage
-import RandomUserKit
 
 final class ListViewController: UIViewController, AlertControllerDisplayer {
     
@@ -25,14 +24,10 @@ final class ListViewController: UIViewController, AlertControllerDisplayer {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
-    var search: UISearchController?
-    lazy private var emptyStateController = EmptyStateViewController()
+    private var search: UISearchController?
     private var viewModel: ListViewModelType?
+    lazy private var emptyStateController = EmptyStateViewController()
     
-    private var filteredData = [User]()
-    private var users: [User] = [] {
-        didSet { tableView.reloadData() }
-    }
     
     private var isSearchBarEmpty: Bool {
         search?.searchBar.text?.isEmpty ?? true
@@ -46,7 +41,6 @@ final class ListViewController: UIViewController, AlertControllerDisplayer {
     
     
     override func viewDidLoad() {
-
         super.viewDidLoad()
         self.viewModel?.delegate = self
         title = self.viewModel?.title
@@ -101,16 +95,8 @@ final class ListViewController: UIViewController, AlertControllerDisplayer {
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var user: User?
-        
-        if isFiltering {
-            user = filteredData[safe: indexPath.row]
-        } else {
-            user = users[safe:indexPath.row]
-        }
-        
-        guard let unwrappedUser = user,
-            let userViewModel = viewModel?.viewModel(for: unwrappedUser),
+        guard let viewModel = viewModel,
+            let userViewModel = viewModel.viewModel(at: indexPath.row, isFiltering: isFiltering),
             let controller = DetailViewController.instantiate()
             else { return }
         controller.configure(with: userViewModel)
@@ -119,23 +105,25 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering { return filteredData.count }
-        return users.count
+        guard let viewModel = viewModel else { return 0 }
+        if isFiltering { return viewModel.filteredData.count }
+        return viewModel.usersArray.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: Constant.cellReuseIdentifier
-            ) as? ThumbnailTableViewCell
+            ) as? ThumbnailTableViewCell,
+            let viewModel = viewModel
             else { return emptyCell }
         
         let user: User
         
         if isFiltering {
-            user = filteredData[indexPath.row]
+            user = viewModel.filteredData[indexPath.row]
         } else {
-            user = users[indexPath.row]
+            user = viewModel.usersArray[indexPath.row]
         }
         
         if isLoadingCell(for: indexPath) {
@@ -153,9 +141,10 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath
     ) {
-        guard !isFiltering else { return }
+        guard !isFiltering,
+            let viewModel = viewModel else { return }
         if editingStyle == .delete {
-            viewModel?.remove(user: users[indexPath.row], at: indexPath.row)
+            viewModel.remove(user: viewModel.usersArray[indexPath.row], at: indexPath.row)
         }
     }
     
@@ -163,7 +152,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - View Model delegate
 
-extension ListViewController: HomeViewModelDelegate {
+extension ListViewController: ListViewModelDelegate {
     
     func onFetchFailed(with reason: String) {
         activityIndicator.stopAnimating()
@@ -172,20 +161,20 @@ extension ListViewController: HomeViewModelDelegate {
     }
     
     
-    func deletedItem(at index: Int, users: [User]) {
+    func deletedItem(at index: Int) {
         tableView.beginUpdates()
-        self.users = users
+        tableView.reloadData()
         tableView.deleteRows(at: [IndexPath(item: index, section: 0)], with: .top)
         tableView.endUpdates()
     }
     
     
-    func onFetchCompleted(with users: [User]) {
+    func onFetchCompleted() {
         activityIndicator.stopAnimating()
         search?.searchBar.isHidden = false
         tableView.isHidden = false
         removeEmptyState()
-        self.users = users
+        tableView.reloadData()
     }
     
 }
@@ -205,7 +194,7 @@ extension ListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text
             else { return }
-        filteredData = viewModel?.updateSearchResults(for: text) ?? []
+        viewModel?.updateSearchResults(for: text)
         tableView.reloadData()
     }
     

@@ -9,8 +9,8 @@
 import Foundation
 import Models
 
-protocol HomeViewModelDelegate: AnyObject {
-    func onFetchCompleted(with users: [User])
-    func deletedItem(at index: Int, users: [User])
+protocol ListViewModelDelegate: AnyObject {
+    func onFetchCompleted()
+    func deletedItem(at index: Int)
     func onFetchFailed(with reason: String)
 }

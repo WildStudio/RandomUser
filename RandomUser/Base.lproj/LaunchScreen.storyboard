@@ -25,13 +25,21 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Random User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qMh-BD-cxj">
                                 <rect key="frame" x="119.5" y="507" width="175.5" height="36"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
-                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Made with 💚 in Barcelona" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16l-iI-Md1">
+                                <rect key="frame" x="16" y="811" width="382" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="16l-iI-Md1" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2jt-mb-sLd"/>
                             <constraint firstItem="xSL-IN-T2Y" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="JRR-z1-rcy"/>
+                            <constraint firstItem="16l-iI-Md1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="UVw-t4-EvM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="16l-iI-Md1" secondAttribute="bottom" constant="30" id="X1e-lM-5lB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="16l-iI-Md1" secondAttribute="trailing" constant="16" id="ZIN-hi-HAi"/>
                             <constraint firstItem="xSL-IN-T2Y" firstAttribute="bottom" secondItem="qMh-BD-cxj" secondAttribute="bottom" constant="-60" id="fLH-Ih-jXS"/>
                             <constraint firstItem="xSL-IN-T2Y" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-20" id="xxi-Sc-8uY"/>
                             <constraint firstItem="qMh-BD-cxj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ycr-ca-BZg"/>

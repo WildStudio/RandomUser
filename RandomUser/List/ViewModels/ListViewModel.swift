@@ -19,6 +19,7 @@ final class ListViewModel: ListViewModelType {
         static let results = 50
     }
     
+    private(set) var filteredData = [User]()
     private(set) var blacklist = [Blacklisted]()
     private(set) var users = Set<User>()
     private(set) var userIDs = Set<UUID>()
@@ -27,7 +28,7 @@ final class ListViewModel: ListViewModelType {
     
     private let repository: RandomUsersRepositoryType
     
-    weak var delegate: HomeViewModelDelegate?
+    weak var delegate: ListViewModelDelegate?
     
     var usersArray: [User] {
         Array(users)
@@ -59,20 +60,21 @@ final class ListViewModel: ListViewModelType {
     }
     
     
-    /// Returns a `UserViewModel` for a given `User`.
+    /// Returns a `UserViewModel`
     ///- Parameters:
-    ///     - user: the given user to construct the view model.
-    ///
-    /// - note: Using mplicit Returns from Single-Expression Functions
-    func viewModel(for user: User) -> UserViewModelType {
-        UserViewModel(user: user)
+    ///     - isFiltering: Whether the view is in search mode or not.
+    ///     - index: the given index  tapped
+    func viewModel(at index: Int, isFiltering: Bool) -> UserViewModelType? {
+        guard let user = isFiltering ? filteredData[safe: index] : usersArray[safe: index]
+            else { return nil }
+        return UserViewModel(user: user)
     }
     
     
     /// Filter the user list with a given string with a search scope that includes name, surname and email
     /// - Parameters:
     ///     - text: the filter term
-    func updateSearchResults(for text: String) -> [User] {
+    func updateSearchResults(for text: String) {
         
         // We first filter based on name, username, and email:
         let nameResults = users
@@ -86,8 +88,8 @@ final class ListViewModel: ListViewModelType {
         let unionNameAndSurname = nameResults.union(surnameResults)
         let union = unionNameAndSurname.union(emailResults)
         
-        // Finally convert to an Array
-        return Array(union)
+        // Finally convert to an Array & set filtered data
+        filteredData = Array(union)
         
     }
     
@@ -100,7 +102,7 @@ final class ListViewModel: ListViewModelType {
         if insertBlacklisted(user) {
             users.remove(user)
             store(usersArray)
-            delegate?.deletedItem(at: index, users: Array(users))
+            delegate?.deletedItem(at: index)
         }
     }
     
@@ -114,13 +116,14 @@ final class ListViewModel: ListViewModelType {
             isFetching = false
             let usersSet = Set(users).filter { !userIsBlackListed($0) }
             self.users = self.users.union(usersSet).uniqueElements
-            delegate?.onFetchCompleted(with: usersArray)
+            delegate?.onFetchCompleted()
             store(usersArray)
         case .failure(let error):
             isFetching = false
             delegate?.onFetchFailed(with: error.localizedDescription)
         }
     }
+    
     
     private func store(_ users: [User]) {
         DispatchQueue.global(qos: .background).async { [weak self] in
@@ -181,7 +184,7 @@ extension ListViewModel {
             removeLocalStore()
         }
         
-        delegate?.onFetchCompleted(with: users)
+        delegate?.onFetchCompleted()
         self.users = Set(users)
     }
     
