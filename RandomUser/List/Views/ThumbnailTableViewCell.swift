@@ -17,6 +17,18 @@ final class ThumbnailTableViewCell: UITableViewCell {
         static let placeholderImage = "avatar-image"
     }
     
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+        
+    }
+    
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         configure(with: .none)
@@ -27,12 +39,15 @@ final class ThumbnailTableViewCell: UITableViewCell {
         guard let user = user else { return }
         textLabel?.text = "\(user.name?.first ?? Constant.none) \(user.name?.last ?? Constant.none)"
         
+        detailTextLabel?.text = "\(user.email ?? Constant.none) \(user.phone ?? Constant.none)"
+        
         imageView?.image = UIImage(named: Constant.placeholderImage)
         if let thumbnail = user.picture?.thumbnail,
             let imageURL = URL(string: thumbnail) {
             imageView?.sd_setImage(with: imageURL)
         }
         
+        selectionStyle = .none
         accessoryType = .disclosureIndicator
     }
 }
