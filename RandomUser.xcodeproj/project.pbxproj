@@ -38,6 +38,7 @@
 		88B4284F2357D6EB00C8F6E2 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B4284E2357D6EB00C8F6E2 /* UserViewModel.swift */; };
 		88D1CCB2235858C100CD888E /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D1CCB1235858C100CD888E /* Marker.swift */; };
 		88D1CCB9235859AB00CD888E /* UserViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D1CCB8235859AB00CD888E /* UserViewModelType.swift */; };
+		88D1CCBB23585CDE00CD888E /* UserViewModelTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D1CCBA23585CDE00CD888E /* UserViewModelTypeTests.swift */; };
 		88F37E3E2355CB180096A233 /* RandomUserKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E3D2355CB180096A233 /* RandomUserKit.framework */; };
 		88F37E3F2355CB180096A233 /* RandomUserKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E3D2355CB180096A233 /* RandomUserKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		88F37E422355CB1D0096A233 /* Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E412355CB1D0096A233 /* Models.framework */; };
@@ -103,6 +104,7 @@
 		88B4284E2357D6EB00C8F6E2 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		88D1CCB1235858C100CD888E /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		88D1CCB8235859AB00CD888E /* UserViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModelType.swift; sourceTree = "<group>"; };
+		88D1CCBA23585CDE00CD888E /* UserViewModelTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModelTypeTests.swift; sourceTree = "<group>"; };
 		88F37E3D2355CB180096A233 /* RandomUserKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RandomUserKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F37E412355CB1D0096A233 /* Models.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Models.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -263,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				885A53E823572344008CB73C /* ListViewModelTypeTests.swift */,
+				88D1CCBA23585CDE00CD888E /* UserViewModelTypeTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				885A53E923572344008CB73C /* ListViewModelTypeTests.swift in Sources */,
 				882F7B0E2355F91100F40ADD /* MockRandomUserService.swift in Sources */,
 				882F7B0B2355F86700F40ADD /* RandomUserRepositoryTests.swift in Sources */,
+				88D1CCBB23585CDE00CD888E /* UserViewModelTypeTests.swift in Sources */,
 				8825C2F323571F180015145B /* Collection+SafeTests.swift in Sources */,
 				8825C2F523571F7F0015145B /* Sequence+Unique.swift in Sources */,
 			);

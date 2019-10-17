@@ -40,16 +40,15 @@ class ListViewModelTypeTests: XCTestCase {
         viewModel.handleResult(.success([MockConstant.user]))
         
         XCTAssertEqual(viewModel.users.count, 1)
+        XCTAssertEqual(viewModel.blacklist.count, 0)
         
         // When
-        if viewModel.insertBlacklisted(MockConstant.user) {
-              viewModel.handleResult(.success([MockConstant.user]))
-        } else {
-            XCTFail("Unable to insert usr in the blacklist, please fix it")
-        }
+        viewModel.remove(user: MockConstant.user, at: 0)
+        viewModel.handleResult(.success([MockConstant.user]))
         
         // Then
         XCTAssertEqual(viewModel.users.count, 0)
+        XCTAssertEqual(viewModel.blacklist.count, 1)
     }
 
 }
