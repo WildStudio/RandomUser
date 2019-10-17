@@ -24,7 +24,6 @@ final class ListViewModel: ListViewModelType {
     private(set) var userIDs = Set<UUID>()
     private(set) var title = Constant.navigationBarTitle
     private(set) var isFetching: Bool = false
-    private var userStore = CacheService()
     
     private let repository: RandomUsersRepositoryType
     
@@ -40,12 +39,12 @@ final class ListViewModel: ListViewModelType {
     }
     
     func showEmptyState() -> Bool {
-        !userStore.isFilePersisted()
+        !repository.isFilePersisted()
     }
     
     
     func performFetching() {
-        userStore.isFilePersisted() ? loadLocalStore() : loadRemoteData()
+        repository.isFilePersisted() ? loadLocalStore() : loadRemoteData()
     }
     
     
@@ -126,7 +125,7 @@ final class ListViewModel: ListViewModelType {
     private func store(_ users: [User]) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             do {
-                try self?.userStore.saveToDisk(users: users)
+                try self?.repository.saveToDisk(users: users)
             } catch let error {
                 os_log(
                     "Can't store users",
@@ -172,7 +171,7 @@ extension ListViewModel {
         
         // Try to load local data
         do {
-            users = try userStore.loadFromDisk()
+            users = try repository.loadFromDisk()
         } catch let error {
             os_log("Can't load data", log: Log.cache, type: .error, error.localizedDescription)
         }
@@ -189,7 +188,7 @@ extension ListViewModel {
     
     func removeLocalStore() {
         do {
-            try userStore.removeFile()
+            try repository.removeFile()
         }  catch let error {
             os_log(
                 "Can't delete local data",

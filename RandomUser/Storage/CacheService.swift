@@ -9,8 +9,9 @@
 import Foundation
 import Models
 
-struct CacheService: CacheServiceType {
+struct CacheService {
     
+    typealias Model = User
     typealias URLClosure = (String, FileManager) -> URL
     
     private var closure: URLClosure = { name, fileManager in

@@ -9,6 +9,17 @@
 import Foundation
 import Models
 
+
 protocol RandomUsersRepositoryType {
+    
     func fetch(results number: Int?, completion: @escaping (Result<[User], Error>) -> Void)
+    
+    func saveToDisk(users: [User]) throws
+    
+    func loadFromDisk() throws -> [User]
+    
+    func removeFile() throws
+    
+    func isFilePersisted() -> Bool
+    
 }
