@@ -24,7 +24,7 @@ final class ListViewModel: ListViewModelType {
     private(set) var userIDs = Set<UUID>()
     private(set) var title = Constant.navigationBarTitle
     private(set) var isFetching: Bool = false
-    private var userStore = Cache()
+    private var userStore = CacheService()
     
     private let repository: RandomUsersRepositoryType
     

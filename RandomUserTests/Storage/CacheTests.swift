@@ -11,11 +11,11 @@ import XCTest
 
 class CacheTests: XCTestCase {
 
-    var cache: Cache!
+    var cache: CacheService!
     
     override func setUp() {
         super.setUp()
-        cache = Cache()
+        cache = CacheService()
     }
 
     override func tearDown() {
