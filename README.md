@@ -17,7 +17,7 @@ Following the MVVM (Model View ViewModel) architecture with repositories, at the
 
 ## Testing
 
-Testing is done with the help of protocols for all View Models. Also both the network and model layer contains unit test and integration tests. Testing at presentation layer can be improved adding UI tests and some sort of integration tests. There's also left to do the CI setup.
+Testing is done with the help of protocols for all View Models. Also both the network and model layer are unit tested and integration tests have been added. Testing at presentation layer can be improved adding UI tests and some sort of integration tests. There's also left to do the CI setup.
 
 
 ## Branching Strategy
