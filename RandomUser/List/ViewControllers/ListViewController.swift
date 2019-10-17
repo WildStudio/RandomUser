@@ -106,9 +106,15 @@ class ListViewController: UIViewController, AlertControllerDisplayer {
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var user: User
+        if isFiltering {
+          user = filteredData[indexPath.row]
+        } else {
+          user = users[indexPath.row]
+        }
         performSegue(
             withIdentifier: Constant.showDetailView,
-            sender: viewModel?.viewModel(for: users[indexPath.row])
+            sender: viewModel?.viewModel(for: user)
         )
     }
     
