@@ -12,7 +12,7 @@ This code follows the [Ray Wenderlich Swift Style Guide](https://github.com/rayw
 
 ## Architecture
 
-Following the MVVM (Model View ViewModel) architecture with repositories, at the presentation layer. Network and Model layer follow a modular approach so they can be reused. Modules can be compiled on therir own and can be in its own repository so they are properly versioned.
+Following the MVVM (Model View ViewModel) architecture with repositories, at the presentation layer. ViewModel are where the view business logic is added. An ViewModel only communicates with repositories and view controllers. We are using delegate in this layer to communicate withview controllers. Our Network and Model layer follow a modular approach so they can be reused. When referring to modules we are referring to the idea of a single package of code. Modules can be compiled on therir own. When referring to frameworks we are referring to the delivery mechanism of a module; i.e. a dynamically linked library containing executable code and resources.
 
 
 ## Testing
