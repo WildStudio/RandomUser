@@ -1,5 +1,5 @@
 //
-//  HomeViewModel.swift
+//  ListViewModel.swift
 //  RandomUser
 //
 //  Created by wearemobilefirst on 15/10/2019.
@@ -9,17 +9,17 @@
 import Foundation
 import Models
 
-class HomeViewModel: HomeViewModelType {
+typealias Blacklisted = (user: User, userID: UUID)
+
+class ListViewModel: ListViewModelType {
     
     private enum Constant {
         static let navigationBarTitle = "Random Users"
         static let results = 50
     }
     
-    typealias blacklist = (user: User, userID: UUID)
-    
-    private(set) var blacklisted = [User]()
-    private(set) var users = [User]()
+    private(set) var blacklist = [Blacklisted]()
+    private(set) var users = Set<User>()
     private(set) var userIDs = Set<UUID>()
     private(set) var title = Constant.navigationBarTitle
     private(set) var isFetching: Bool = false
@@ -44,13 +44,23 @@ class HomeViewModel: HomeViewModelType {
         }
     }
     
-    /// TODO: - Reduce time complexity
+    
+    /// Returns a `UserViewModel` for a given `User`.
+    ///- Parameters:
+    ///     - user: the given user to construct the view model.
+    ///
+    /// - note: Using mplicit Returns from Single-Expression Functions
+    func viewModel(for user: User) -> UserViewModelType {
+        UserViewModel(user: user)
+    }
+    
+    
     /// Filter the user list with a given string with a search scope that includes name, surname and email
     /// - Parameters:
     ///     - text: the filter term
     func updateSearchResults(for text: String) -> [User] {
         
-        // We first filter based on name, username, and email :
+        // We first filter based on name, username, and email:
         let nameResults = users
             .filter { ($0.name?.first?.lowercased().contains(text.lowercased()) ?? false) }
         let surnameResults = users
@@ -58,9 +68,8 @@ class HomeViewModel: HomeViewModelType {
         let emailResults = users
             .filter { ($0.email?.lowercased().contains(text.lowercased()) ?? false) }
         
-        // Then we convert each array to a set to be able to combine them.
-        let set = Set(nameResults)
-        let unionNameAndSurname = set.union(surnameResults)
+        // Then we combine them.
+        let unionNameAndSurname = nameResults.union(surnameResults)
         let union = unionNameAndSurname.union(emailResults)
         
         // Finally convert to an Array
@@ -68,30 +77,31 @@ class HomeViewModel: HomeViewModelType {
         
     }
     
-    /// Safely access to the user with index inserted in the blacklist and if the iserion is succesful delete the user and notify.
+    
+    /// Safely access to the user with index inserted in the blacklist and if the insertion is succesful delete the user and notify.
     /// - Parameters:
-    /// - index: the array lookup index.
-    func removeUser(at index: Int) {
-        guard let user = users[safe: index] else { return }
-        
+    ///     - user: the user to be removed
+    ///     - index: the array lookup index.
+    func remove(user: User, at index: Int) {
         if insertBlacklisted(user) {
-            users.remove(at: index)
-            delegate?.deletedItem(at: index, users: users)
+            users.remove(user)
+            delegate?.deletedItem(at: index, users: Array(users))
         }
     }
     
+    
     /// Handle the results, to filter them down from the blacklisted ones and remove duplicates.
     /// - Parameters:
-    /// - result: A value that represents either a success or a failure, including an associated value in each case.
+    ///     - result: A value that represents either a success or a failure, including an associated value in each case.
     func handleResult(_ result: Result<[User], Error>) {
         switch result {
         case .success(let users):
             isFetching = false
-            let newUsers = users
-                .filter { !self.userIsBlackListed($0) }
+            let usersSet = Set(users)
+                .filter { !userIsBlackListed($0) }
                 .uniqueElements
-            self.users.append(contentsOf: (newUsers))
-            delegate?.onFetchCompleted(with: self.users)
+            self.users = Set(self.users.union(usersSet).uniqueElements)
+            delegate?.onFetchCompleted(with: Array(self.users))
         case .failure(let error):
             isFetching = false
             delegate?.onFetchFailed(with: error.localizedDescription)
@@ -101,13 +111,14 @@ class HomeViewModel: HomeViewModelType {
 }
 
 
-extension HomeViewModel {
+extension ListViewModel {
     
     /// Returns a Boolean value that indicates whether a given user  can be inserted into the blacklist.
     func insertBlacklisted(_ user: User) -> Bool {
-        blacklisted.append(user)
         guard let ID = user.userUUID
             else { return false }
+        
+        blacklist.append((user, ID))
         let inserted = userIDs.insert(ID).inserted
         return inserted ? true : false
     }

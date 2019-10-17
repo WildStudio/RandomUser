@@ -11,13 +11,14 @@ import Models
 import SDWebImage
 import RandomUserKit
 
-class HomeViewController: UIViewController, AlertControllerDisplayer {
+class ListViewController: UIViewController, AlertControllerDisplayer {
     
     private enum Constant {
         static let cellReuseIdentifier = "cell"
         static let alertTitle = "Something went wrong"
         static let alertOK = "OK"
         static let searchBarPlaceholder = "Start typing to filter users..."
+        static let showDetailView = "showdetail"
     }
     
     @IBOutlet private var tableView: UITableView!
@@ -25,7 +26,7 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     
     var search: UISearchController?
     lazy private var emptyStateController = EmptyStateViewController()
-    private var viewModel: HomeViewModelType?
+    private var viewModel: ListViewModelType?
     
     private var filteredData = [User]()
     private var users: [User] = [] {
@@ -53,7 +54,7 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     }
     
     
-    func configure(with viewModel: HomeViewModelType) {
+    func configure(with viewModel: ListViewModelType) {
         self.viewModel = viewModel
     }
     
@@ -61,6 +62,7 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
     private func setupTableView() {
         tableView.prefetchDataSource = self
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.isHidden = true
         tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
     }
@@ -84,19 +86,30 @@ class HomeViewController: UIViewController, AlertControllerDisplayer {
         search?.obscuresBackgroundDuringPresentation = false
         search?.searchBar.placeholder = Constant.searchBarPlaceholder
         navigationItem.searchController = search
+        navigationItem.hidesSearchBarWhenScrolling = false
+        search?.searchBar.isHidden = true
     }
     
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        emptyStateController.view.frame = view.bounds
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let viewController = segue.destination as? DetailViewController,
+            let viewModel = sender as? UserViewModel
+            else { return }
+        viewController.configure(with: viewModel)
     }
     
 }
 
 // MARK: - Table view data source
 
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+extension ListViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(
+            withIdentifier: Constant.showDetailView,
+            sender: viewModel?.viewModel(for: users[indexPath.row])
+        )
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering { return filteredData.count }
@@ -124,9 +137,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configure(with: user)
         }
         
-        
         return cell
     }
+    
     
     func tableView(
         _ tableView: UITableView,
@@ -135,7 +148,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     ) {
         guard !isFiltering else { return }
         if editingStyle == .delete {
-            viewModel?.removeUser(at: indexPath.row)
+            viewModel?.remove(user: users[indexPath.row], at: indexPath.row)
         }
     }
     
@@ -143,7 +156,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - View Model delegate
 
-extension HomeViewController: HomeViewModelDelegate {
+extension ListViewController: HomeViewModelDelegate {
     
     func onFetchFailed(with reason: String) {
         activityIndicator.stopAnimating()
@@ -162,6 +175,7 @@ extension HomeViewController: HomeViewModelDelegate {
     
     func onFetchCompleted(with users: [User]) {
         activityIndicator.stopAnimating()
+        search?.searchBar.isHidden = false
         tableView.isHidden = false
         removeEmptyState()
         self.users = users
@@ -169,7 +183,7 @@ extension HomeViewController: HomeViewModelDelegate {
     
 }
 
-extension HomeViewController: EmptyStateViewControllerDelegate {
+extension ListViewController: EmptyStateViewControllerDelegate {
     
     func emptyStatesViewControllerTappedMainButton() {
         viewModel?.performFetching()
@@ -179,7 +193,7 @@ extension HomeViewController: EmptyStateViewControllerDelegate {
 
 // MARK: - UISearchResultsUpdating
 
-extension HomeViewController: UISearchResultsUpdating {
+extension ListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text
@@ -191,7 +205,7 @@ extension HomeViewController: UISearchResultsUpdating {
 }
 
 
-extension HomeViewController: UITableViewDataSourcePrefetching {
+extension ListViewController: UITableViewDataSourcePrefetching {
     
     func isLoadingCell(for indexPath: IndexPath) -> Bool {
         guard let viewModel = self.viewModel

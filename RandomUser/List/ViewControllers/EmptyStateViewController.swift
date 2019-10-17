@@ -37,4 +37,5 @@ final class EmptyStateViewController: UIViewController {
     @IBAction private func didTapMainActionButton(_ sender: Any) {
         delegate?.emptyStatesViewControllerTappedMainButton()
     }
+    
 }

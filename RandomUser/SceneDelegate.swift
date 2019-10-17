@@ -21,12 +21,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         
        guard let navigationController = window?.rootViewController as? UINavigationController,
-            let homeViewController = navigationController.viewControllers.first as? HomeViewController else {
+            let homeViewController = navigationController.viewControllers.first as? ListViewController else {
                 fatalError("The initial view controller should be set to a HomeViewController embedded into a UINavigationController!")
         }
         let configuration = ServerConfig(apiBaseUrl: URL(string: "https://randomuser.me/API")!)
         let apiService = Service(serverConfig: configuration)
-        let viewModel =  HomeViewModel(repository: RandomUsersRepository(service: apiService))
+        let viewModel =  ListViewModel(repository: RandomUsersRepository(service: apiService))
         homeViewController.configure(with: viewModel)
     }
 

@@ -1,5 +1,5 @@
 //
-//  HomeViewModelTypeTests.swift
+//  ListViewModelTypeTests.swift
 //  RandomUserTests
 //
 //  Created by wearemobilefirst on 16/10/2019.
@@ -9,9 +9,9 @@
 import XCTest
 @testable import RandomUser
 
-class HomeViewModelTypeTests: XCTestCase {
+class ListViewModelTypeTests: XCTestCase {
 
-    var viewModel: HomeViewModelType!
+    var viewModel: ListViewModelType!
     var repository: RandomUsersRepositoryType!
     
     
@@ -22,7 +22,7 @@ class HomeViewModelTypeTests: XCTestCase {
                 serverConfig: MockServerConfig()
             )
         )
-        viewModel = HomeViewModel(repository: repository)
+        viewModel = ListViewModel(repository: repository)
     }
     
     
