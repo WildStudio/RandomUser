@@ -12,7 +12,7 @@ import os
 
 typealias Blacklisted = (user: User, userID: UUID)
 
-class ListViewModel: ListViewModelType {
+final class ListViewModel: ListViewModelType {
     
     private enum Constant {
         static let navigationBarTitle = "Random Users"
@@ -45,19 +45,9 @@ class ListViewModel: ListViewModelType {
     
     
     func performFetching() {
-        userStore.isFilePersisted() ? loadLocalData() : loadRemoteData()
+        userStore.isFilePersisted() ? loadLocalStore() : loadRemoteData()
     }
     
-    func loadLocalData() {
-        var users = [User]()
-        do {
-            users = try userStore.loadFromDisk()
-        } catch let error {
-            os_log("Can't load data", log: Log.cache, type: .error, error.localizedDescription)
-        }
-        delegate?.onFetchCompleted(with: users)
-        self.users = Set(users)
-    }
     
     func loadRemoteData() {
         guard !isFetching else { return }
@@ -123,12 +113,10 @@ class ListViewModel: ListViewModelType {
         switch result {
         case .success(let users):
             isFetching = false
-            let usersSet = Set(users)
-                .filter { !userIsBlackListed($0) }
-                .uniqueElements
-            self.users = Set(self.users.union(usersSet).uniqueElements)
-            store(usersArray)
+            let usersSet = Set(users).filter { !userIsBlackListed($0) }
+            self.users = self.users.union(usersSet).uniqueElements
             delegate?.onFetchCompleted(with: usersArray)
+            store(usersArray)
         case .failure(let error):
             isFetching = false
             delegate?.onFetchFailed(with: error.localizedDescription)
@@ -140,13 +128,19 @@ class ListViewModel: ListViewModelType {
             do {
                 try self?.userStore.saveToDisk(users: users)
             } catch let error {
-                os_log("Can't store", log: Log.cache, type: .error, error.localizedDescription)
+                os_log(
+                    "Can't store users",
+                    log: Log.cache,
+                    type: .error,
+                    error.localizedDescription
+                )
             }
         }
     }
     
 }
 
+// MARK: - Blacklisting
 
 extension ListViewModel {
     
@@ -167,4 +161,42 @@ extension ListViewModel {
         return userIDs.contains(ID)
     }
     
+}
+
+// MARK: - Local Store (Cache)
+
+extension ListViewModel {
+    
+    func loadLocalStore() {
+        var users = [User]()
+        
+        // Try to load local data
+        do {
+            users = try userStore.loadFromDisk()
+        } catch let error {
+            os_log("Can't load data", log: Log.cache, type: .error, error.localizedDescription)
+        }
+        
+        // If none users are given back delete disk file
+        if users.count == 0 {
+            removeLocalStore()
+        }
+        
+        delegate?.onFetchCompleted(with: users)
+        self.users = Set(users)
+    }
+    
+    
+    func removeLocalStore() {
+        do {
+            try userStore.removeFile()
+        }  catch let error {
+            os_log(
+                "Can't delete local data",
+                log: Log.cache,
+                type: .error, error.localizedDescription
+            )
+        }
+    }
+
 }

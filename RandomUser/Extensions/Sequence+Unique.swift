@@ -8,14 +8,14 @@
 
 import Foundation
 
-public extension Sequence where Element: Equatable {
+public extension Sequence where Element: Hashable {
     
-  var uniqueElements: [Element] {
+  var uniqueElements: Set<Element> {
     return self.reduce(into: []) {
       uniqueElements, element in
 
       if !uniqueElements.contains(element) {
-        uniqueElements.append(element)
+        uniqueElements.update(with: element)
       }
     }
   }

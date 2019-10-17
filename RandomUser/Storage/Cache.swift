@@ -9,20 +9,25 @@
 import Foundation
 import Models
 
-final class Cache {
+struct Cache {
     
+    typealias URLClosure = (String, FileManager) -> URL
+    
+    var closure: URLClosure = { name, fileManager in
+        let folderURLs = fileManager.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask
+        )
+        
+        return folderURLs[0].appendingPathComponent(name + ".cache")
+    }
     
     func saveToDisk(
         users: [User],
         withName name: String = "users",
         using fileManager: FileManager = .default
     ) throws {
-        let folderURLs = fileManager.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask
-        )
-        
-        let fileURL = folderURLs[0].appendingPathComponent(name + ".cache")
+        let fileURL = closure(name, fileManager)
         let data = try JSONEncoder().encode(users)
         try data.write(to: fileURL)
     }
@@ -32,16 +37,18 @@ final class Cache {
         withName name: String = "users",
         using fileManager: FileManager = .default
     ) throws -> [User] {
-        let folderURLs = fileManager.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask
-        )
-        
-        let fileURL = folderURLs[0].appendingPathComponent(name + ".cache")
-        
+        let fileURL = closure(name, fileManager)
         let data = try Data(contentsOf: fileURL)
         let model = try JSONDecoder().decode([User].self, from: data)
         return model
+    }
+    
+    
+    func removeFile(withName name: String = "users",
+                    using fileManager: FileManager = .default
+    ) throws {
+        let fileURL = closure(name, fileManager)
+        try fileManager.removeItem(at: fileURL)
     }
     
     
@@ -49,12 +56,7 @@ final class Cache {
         withName name: String = "users",
         using fileManager: FileManager = .default
     ) -> Bool {
-        let folderURLs = fileManager.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask
-        )
-        
-        let fileURL = folderURLs[0].appendingPathComponent(name + ".cache")
+        let fileURL = closure(name, fileManager)
         return fileManager.fileExists(atPath: fileURL.path)
     }
     

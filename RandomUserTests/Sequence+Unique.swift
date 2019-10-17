@@ -13,10 +13,10 @@ class Sequence_Unique: XCTestCase {
 
     func testArrayWhenDuplicatedItemsReturnsArrayWithDuplicatedRemoved() {
         // Given
-        let testArray = [1,2,2,3]
+        let testSet: Set = [1,2,2,3]
         
         // When
-        let uniques = testArray.uniqueElements
+        let uniques = testSet.uniqueElements
         
         // Then
         XCTAssertEqual(uniques.count, 3)

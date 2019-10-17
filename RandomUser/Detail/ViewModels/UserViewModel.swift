@@ -10,7 +10,7 @@ import Foundation
 import Models
 import CoreLocation
 
-class UserViewModel: UserViewModelType {
+final class UserViewModel: UserViewModelType {
     
     private let user: User
     

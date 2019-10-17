@@ -41,6 +41,7 @@
 		88D1CCBB23585CDE00CD888E /* UserViewModelTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D1CCBA23585CDE00CD888E /* UserViewModelTypeTests.swift */; };
 		88D1CCBE2358689800CD888E /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D1CCBD2358689800CD888E /* Cache.swift */; };
 		88D1CCC123586D4F00CD888E /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D1CCC023586D4F00CD888E /* Log.swift */; };
+		88D1CCC72358B11800CD888E /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D1CCC62358B11800CD888E /* CacheTests.swift */; };
 		88F37E3E2355CB180096A233 /* RandomUserKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E3D2355CB180096A233 /* RandomUserKit.framework */; };
 		88F37E3F2355CB180096A233 /* RandomUserKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E3D2355CB180096A233 /* RandomUserKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		88F37E422355CB1D0096A233 /* Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F37E412355CB1D0096A233 /* Models.framework */; };
@@ -109,6 +110,7 @@
 		88D1CCBA23585CDE00CD888E /* UserViewModelTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModelTypeTests.swift; sourceTree = "<group>"; };
 		88D1CCBD2358689800CD888E /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		88D1CCC023586D4F00CD888E /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		88D1CCC62358B11800CD888E /* CacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		88F37E3D2355CB180096A233 /* RandomUserKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RandomUserKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F37E412355CB1D0096A233 /* Models.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Models.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -223,6 +225,7 @@
 		88387A00235470C60012C1B2 /* RandomUserTests */ = {
 			isa = PBXGroup;
 			children = (
+				88D1CCC22358A11700CD888E /* Storage */,
 				885A53E72357231A008CB73C /* ViewModels */,
 				885A53E423572259008CB73C /* Repositories */,
 				882F7B0C2355F89000F40ADD /* Mocks */,
@@ -352,6 +355,14 @@
 				88D1CCC023586D4F00CD888E /* Log.swift */,
 			);
 			path = Logs;
+			sourceTree = "<group>";
+		};
+		88D1CCC22358A11700CD888E /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				88D1CCC62358B11800CD888E /* CacheTests.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		88F37E3C2355CB180096A233 /* Frameworks */ = {
@@ -505,6 +516,7 @@
 			files = (
 				882F7B102355FA3000F40ADD /* MockConstant.swift in Sources */,
 				885A53E923572344008CB73C /* ListViewModelTypeTests.swift in Sources */,
+				88D1CCC72358B11800CD888E /* CacheTests.swift in Sources */,
 				882F7B0E2355F91100F40ADD /* MockRandomUserService.swift in Sources */,
 				882F7B0B2355F86700F40ADD /* RandomUserRepositoryTests.swift in Sources */,
 				88D1CCBB23585CDE00CD888E /* UserViewModelTypeTests.swift in Sources */,
