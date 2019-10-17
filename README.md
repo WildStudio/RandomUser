@@ -30,3 +30,7 @@ Branching strategy follows [GitFlow](https://datasift.github.io/gitflow/Introduc
 This projects make use of the following dependencies through [Swift Package Manager](https://github.com/apple/swift-package-manager/tree/master/Documentation)
 
 * [SDWebImage](https://github.com/SDWebImage/SDWebImage)
+
+## Usage
+
+In order to ran this app open RandomUser.xcworkspace, choose RandomUser scheme and press run (cmd+R) either with a test device or an iPhone simulator (Minimum deployment target is iOS13)
