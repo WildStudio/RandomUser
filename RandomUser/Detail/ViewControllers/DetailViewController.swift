@@ -25,7 +25,6 @@ final class DetailViewController: UIViewController {
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var genderLabel: UILabel!
     @IBOutlet private var registeredDateLabel: UILabel!
-    @IBOutlet private var locationLabel: UILabel!
     
     
     func configure(with viewModel: UserViewModelType) {
@@ -44,7 +43,6 @@ final class DetailViewController: UIViewController {
         genderLabel.text = viewModel?.gender
         emailLabel.text = viewModel?.email
         registeredDateLabel.text = viewModel?.registeredDate
-        locationLabel.text = viewModel?.location
         profileImageView.image = UIImage(named: Constant.placeholderImage)
         
         if let profileImageURL = viewModel?.profileImageURL {
@@ -52,9 +50,8 @@ final class DetailViewController: UIViewController {
         }
         
         if let headerImageURL = viewModel?.headerImageURL {
-            profileImageView?.sd_setImage(with: headerImageURL)
+            headerImageView?.sd_setImage(with: headerImageURL)
         }
-        
     }
     
 }
