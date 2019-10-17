@@ -11,16 +11,18 @@ import Models
 
 protocol ListViewModelType {
     
-    var delegate: HomeViewModelDelegate? { get set }
+    var delegate: ListViewModelDelegate? { get set }
     var title: String { get }
+    var filteredData: [User] { get }
     var blacklist: [Blacklisted] { get }
     var users: Set<User> { get }
+    var usersArray: [User] { get }
     var userIDs: Set<UUID> { get }
     
     func showEmptyState() -> Bool
-    func viewModel(for user: User) -> UserViewModelType
+    func viewModel(at index: Int, isFiltering: Bool) -> UserViewModelType?
     func remove(user: User, at index: Int)
-    func updateSearchResults(for text: String) -> [User]
+    func updateSearchResults(for text: String)
     func insertBlacklisted(_ user: User) -> Bool
     func userIsBlackListed(_ user: User) -> Bool
     func performFetching()

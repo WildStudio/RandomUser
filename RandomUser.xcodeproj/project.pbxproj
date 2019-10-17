@@ -30,8 +30,8 @@
 		885611612355CE0E00FBA78B /* RandomUsersRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885611602355CE0E00FBA78B /* RandomUsersRepositoryType.swift */; };
 		885A53E923572344008CB73C /* ListViewModelTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53E823572344008CB73C /* ListViewModelTypeTests.swift */; };
 		885A53EB23573FF5008CB73C /* AlertControllerDisplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53EA23573FF5008CB73C /* AlertControllerDisplayer.swift */; };
-		885A53EE235758A4008CB73C /* HomeViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53ED235758A4008CB73C /* HomeViewModelType.swift */; };
-		885A53F0235758D2008CB73C /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53EF235758D2008CB73C /* HomeViewModelDelegate.swift */; };
+		885A53EE235758A4008CB73C /* ListViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53ED235758A4008CB73C /* ListViewModelType.swift */; };
+		885A53F0235758D2008CB73C /* ListViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53EF235758D2008CB73C /* ListViewModelDelegate.swift */; };
 		885A53F223576288008CB73C /* UIViewController+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53F123576288008CB73C /* UIViewController+Child.swift */; };
 		885A53F423576417008CB73C /* UIView+AutoLayoutHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53F323576417008CB73C /* UIView+AutoLayoutHelpers.swift */; };
 		88B4284D2357D32B00C8F6E2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B4284C2357D32B00C8F6E2 /* DetailViewController.swift */; };
@@ -98,8 +98,8 @@
 		885611602355CE0E00FBA78B /* RandomUsersRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUsersRepositoryType.swift; sourceTree = "<group>"; };
 		885A53E823572344008CB73C /* ListViewModelTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTypeTests.swift; sourceTree = "<group>"; };
 		885A53EA23573FF5008CB73C /* AlertControllerDisplayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerDisplayer.swift; sourceTree = "<group>"; };
-		885A53ED235758A4008CB73C /* HomeViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelType.swift; sourceTree = "<group>"; };
-		885A53EF235758D2008CB73C /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
+		885A53ED235758A4008CB73C /* ListViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelType.swift; sourceTree = "<group>"; };
+		885A53EF235758D2008CB73C /* ListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelDelegate.swift; sourceTree = "<group>"; };
 		885A53F123576288008CB73C /* UIViewController+Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Child.swift"; sourceTree = "<group>"; };
 		885A53F323576417008CB73C /* UIView+AutoLayoutHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutHelpers.swift"; sourceTree = "<group>"; };
 		88B4284C2357D32B00C8F6E2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -280,8 +280,8 @@
 		885A53EC23575887008CB73C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				885A53ED235758A4008CB73C /* HomeViewModelType.swift */,
-				885A53EF235758D2008CB73C /* HomeViewModelDelegate.swift */,
+				885A53ED235758A4008CB73C /* ListViewModelType.swift */,
+				885A53EF235758D2008CB73C /* ListViewModelDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -490,11 +490,11 @@
 				8825C2DF235678CE0015145B /* Collection+Safe.swift in Sources */,
 				883879ED235470C40012C1B2 /* SceneDelegate.swift in Sources */,
 				885A53F223576288008CB73C /* UIViewController+Child.swift in Sources */,
-				885A53EE235758A4008CB73C /* HomeViewModelType.swift in Sources */,
+				885A53EE235758A4008CB73C /* ListViewModelType.swift in Sources */,
 				8825C2F123571D320015145B /* Sequence+Unique.swift in Sources */,
 				88B4284F2357D6EB00C8F6E2 /* UserViewModel.swift in Sources */,
 				885A53EB23573FF5008CB73C /* AlertControllerDisplayer.swift in Sources */,
-				885A53F0235758D2008CB73C /* HomeViewModelDelegate.swift in Sources */,
+				885A53F0235758D2008CB73C /* ListViewModelDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
