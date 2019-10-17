@@ -9,7 +9,6 @@
 import Foundation
 import Models
 import XCTest
-import CoreLocation
 @testable import RandomUser
 
 class UserViewModelTypeTests: XCTestCase {
@@ -40,14 +39,12 @@ class UserViewModelTypeTests: XCTestCase {
         let expectedName = "\(user.name?.first ?? .init()) \(user.name?.last ?? .init())"
         let expectedGender = user.gender
         let expectedRegisteredDate = user.registered?.date
-        let expectedLocation = "\(user.location?.street ?? .init()) \(user.location?.city ?? .init()) \(user.location?.state ?? .init())"
         
         // Then
         XCTAssertEqual(viewModel.email, expectedEmail)
         XCTAssertEqual(viewModel.name, expectedName)
         XCTAssertEqual(viewModel.gender, expectedGender)
         XCTAssertEqual(viewModel.registeredDate, expectedRegisteredDate)
-        XCTAssertEqual(viewModel.location, expectedLocation)
     }
     
 }

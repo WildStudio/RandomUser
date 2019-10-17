@@ -37,7 +37,6 @@ public struct Service: ServiceType {
                     completion(.success(users))
                 }
             case .failure(let error):
-                print(error)
                 DispatchQueue.main.async { completion(.failure(error)) }
             }
         }

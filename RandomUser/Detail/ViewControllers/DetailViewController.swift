@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MapKit
 import SDWebImage
 
 final class DetailViewController: UIViewController {
@@ -20,13 +19,12 @@ final class DetailViewController: UIViewController {
     
     private var viewModel: UserViewModelType?
     
+    @IBOutlet private var headerImageView: UIImageView!
     @IBOutlet private var profileImageView: UIImageView!
     @IBOutlet private var emailLabel: UILabel!
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var genderLabel: UILabel!
     @IBOutlet private var registeredDateLabel: UILabel!
-    @IBOutlet private var locationLabel: UILabel!
-    @IBOutlet private var mapView: MKMapView!
     
     
     func configure(with viewModel: UserViewModelType) {
@@ -45,15 +43,14 @@ final class DetailViewController: UIViewController {
         genderLabel.text = viewModel?.gender
         emailLabel.text = viewModel?.email
         registeredDateLabel.text = viewModel?.registeredDate
-        locationLabel.text = viewModel?.location
         profileImageView.image = UIImage(named: Constant.placeholderImage)
         
         if let profileImageURL = viewModel?.profileImageURL {
             profileImageView?.sd_setImage(with: profileImageURL)
         }
         
-        if let coordinate = viewModel?.locationCoordinate {
-            mapView.addAnnotation(Marker(coordinate: coordinate))
+        if let headerImageURL = viewModel?.headerImageURL {
+            headerImageView?.sd_setImage(with: headerImageURL)
         }
     }
     

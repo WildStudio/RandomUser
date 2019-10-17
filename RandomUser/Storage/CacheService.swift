@@ -9,11 +9,12 @@
 import Foundation
 import Models
 
-struct Cache {
+struct CacheService {
     
+    typealias Model = User
     typealias URLClosure = (String, FileManager) -> URL
     
-    var closure: URLClosure = { name, fileManager in
+    private var closure: URLClosure = { name, fileManager in
         let folderURLs = fileManager.urls(
             for: .cachesDirectory,
             in: .userDomainMask

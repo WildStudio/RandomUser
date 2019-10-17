@@ -20,7 +20,7 @@ class ListViewModelTypeTests: XCTestCase {
         repository = RandomUsersRepository(
             service: MockRandomUserService(
                 serverConfig: MockServerConfig()
-            )
+            ), cacheService: CacheService()
         )
         viewModel = ListViewModel(repository: repository)
     }

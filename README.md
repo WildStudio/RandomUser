@@ -12,12 +12,12 @@ This code follows the [Ray Wenderlich Swift Style Guide](https://github.com/rayw
 
 ## Architecture
 
-Following the MVVM (Model View ViewModel) architecture with repositories, at the presentation layer. Network and Model layer follow a modular approach so they can be reused. 
+Following the MVVM (Model View ViewModel) architecture with repositories, at the presentation layer. Network and Model layer follow a modular approach so they can be reused. Modules can be compiled on therir own and can be in its own repository so they are properly versioned.
 
 
 ## Testing
 
-Testing is done with the help of protocols for all View Models. Also both the newtwork and model layer contains unit test and integration tests. Testing at presentation layer can be improved adding UI tests and some sort of integration tests. There's also left the CI setup.
+Testing is done with the help of protocols for all View Models. Also both the network and model layer contains unit test and integration tests. Testing at presentation layer can be improved adding UI tests and some sort of integration tests. There's also left to do the CI setup.
 
 
 ## Branching Strategy

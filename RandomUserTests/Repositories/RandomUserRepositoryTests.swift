@@ -18,7 +18,7 @@ class RandomUserRepositoryTests: XCTestCase {
         repository = RandomUsersRepository(
             service: MockRandomUserService(
                 serverConfig: MockServerConfig()
-            )
+            ), cacheService: CacheService()
         )
     }
     
