@@ -46,11 +46,12 @@ class ListViewController: UIViewController, AlertControllerDisplayer {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addEmptyState()
+        self.viewModel?.delegate = self
+               title = self.viewModel?.title
         setupTableView()
         setupSearchController()
-        viewModel?.delegate = self
-        title = viewModel?.title
+        guard let viewModel = viewModel else { return }
+        viewModel.showEmptyState() ? addEmptyState() : viewModel.performFetching()
     }
     
     
@@ -67,17 +68,18 @@ class ListViewController: UIViewController, AlertControllerDisplayer {
         tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
     }
     
+    
     private func addEmptyState() {
         emptyStateController.delegate = self
         embed(emptyStateController)
         embedView(emptyStateController.view, in: view)
     }
-
-
+    
+    
     private func removeEmptyState() {
         remove(emptyStateController)
     }
-
+    
     
     private func setupSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
@@ -225,7 +227,6 @@ extension ListViewController: UITableViewDataSourcePrefetching {
         if indexPaths.contains(where: isLoadingCell) {
             viewModel?.loadRemoteData()
         }
-        
     }
     
 }

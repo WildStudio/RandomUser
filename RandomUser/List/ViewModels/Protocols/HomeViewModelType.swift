@@ -17,6 +17,7 @@ protocol ListViewModelType {
     var users: Set<User> { get }
     var userIDs: Set<UUID> { get }
     
+    func showEmptyState() -> Bool
     func viewModel(for user: User) -> UserViewModelType
     func remove(user: User, at index: Int)
     func updateSearchResults(for text: String) -> [User]
