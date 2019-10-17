@@ -8,7 +8,6 @@
 
 import Foundation
 import Models
-import CoreLocation
 
 final class UserViewModel: UserViewModelType {
     
@@ -19,6 +18,12 @@ final class UserViewModel: UserViewModelType {
     }
     
     var profileImageURL: URL? {
+        guard let imageURLString = user.picture?.medium
+            else { return nil }
+        return URL(string: imageURLString)
+    }
+    
+    var headerImageURL: URL? {
         guard let imageURLString = user.picture?.large
             else { return nil }
         return URL(string: imageURLString)
@@ -47,14 +52,6 @@ final class UserViewModel: UserViewModelType {
         
         return "\(street ?? .init()) \(city ?? .init()) \(state ?? .init())"
         
-    }
-    
-    var locationCoordinate: CLLocationCoordinate2D? {
-        guard let latitude = Double(user.location?.coordinates?.latitude ?? .init()),
-            let longitude = Double(user.location?.coordinates?.longitude ?? .init())
-            else { return nil }
-        
-        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
 }

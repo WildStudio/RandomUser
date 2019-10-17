@@ -8,14 +8,13 @@
 
 import Foundation
 import Models
-import CoreLocation
 
 protocol UserViewModelType {
+    var headerImageURL: URL? { get }
     var profileImageURL: URL? { get }
     var email: String { get }
     var name: String { get }
     var gender: String { get }
     var registeredDate: String { get }
     var location: String { get }
-    var locationCoordinate: CLLocationCoordinate2D? { get }
 }
