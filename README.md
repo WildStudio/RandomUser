@@ -7,7 +7,7 @@ This repository contains the Technical Test for Apps Developer from Adevinta.
 
 ## Coding Style Guide
 
-This code follows the [Ray Wenderlich Swift Style Guide](https://github.com/raywenderlich/swift-style-guide)
+This code follows the [Ray Wenderlich Swift Style Guide](https://github.com/raywenderlich/swift-style-guide).
 
 
 ## Architecture
