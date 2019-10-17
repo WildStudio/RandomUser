@@ -22,7 +22,7 @@ Testing is done with the help of protocols for all View Models. Also both the ne
 
 ## Branching Strategy
 
-Branching strategy follows [GitFlow] (https://datasift.github.io/gitflow/IntroducingGitFlow.html)
+Branching strategy follows [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html)
 
 
 ## Dependencies
