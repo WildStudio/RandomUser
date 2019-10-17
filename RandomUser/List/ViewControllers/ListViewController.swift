@@ -223,7 +223,7 @@ extension ListViewController: UITableViewDataSourcePrefetching {
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         if indexPaths.contains(where: isLoadingCell) {
-            viewModel?.performFetching()
+            viewModel?.loadRemoteData()
         }
         
     }

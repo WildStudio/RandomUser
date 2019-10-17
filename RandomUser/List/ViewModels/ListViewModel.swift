@@ -8,6 +8,7 @@
 
 import Foundation
 import Models
+import os
 
 typealias Blacklisted = (user: User, userID: UUID)
 
@@ -23,10 +24,15 @@ class ListViewModel: ListViewModelType {
     private(set) var userIDs = Set<UUID>()
     private(set) var title = Constant.navigationBarTitle
     private(set) var isFetching: Bool = false
+    private var usersStore = Cache()
     
     private let repository: RandomUsersRepositoryType
     
     weak var delegate: HomeViewModelDelegate?
+    
+    var usersArray: [User] {
+        Array(users)
+    }
     
     
     init(repository: RandomUsersRepositoryType) {
@@ -35,6 +41,21 @@ class ListViewModel: ListViewModelType {
     
     
     func performFetching() {
+        usersStore.isFilePersisted() ? loadLocalData() : loadRemoteData()
+    }
+    
+    func loadLocalData() {
+        var users = [User]()
+        do {
+            users = try usersStore.loadFromDisk()
+        } catch let error {
+            os_log("Can't load data", log: Log.cache, type: .error, error.localizedDescription)
+        }
+        delegate?.onFetchCompleted(with: users)
+        self.users = Set(users)
+    }
+    
+    func loadRemoteData() {
         guard !isFetching else { return }
         isFetching = true
         repository.fetch(
@@ -85,6 +106,7 @@ class ListViewModel: ListViewModelType {
     func remove(user: User, at index: Int) {
         if insertBlacklisted(user) {
             users.remove(user)
+            store(usersArray)
             delegate?.deletedItem(at: index, users: Array(users))
         }
     }
@@ -101,10 +123,21 @@ class ListViewModel: ListViewModelType {
                 .filter { !userIsBlackListed($0) }
                 .uniqueElements
             self.users = Set(self.users.union(usersSet).uniqueElements)
-            delegate?.onFetchCompleted(with: Array(self.users))
+            store(usersArray)
+            delegate?.onFetchCompleted(with: usersArray)
         case .failure(let error):
             isFetching = false
             delegate?.onFetchFailed(with: error.localizedDescription)
+        }
+    }
+    
+    private func store(_ users: [User]) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            do {
+                try self?.usersStore.saveToDisk(users: users)
+            } catch let error {
+                os_log("Can't store", log: Log.cache, type: .error, error.localizedDescription)
+            }
         }
     }
     

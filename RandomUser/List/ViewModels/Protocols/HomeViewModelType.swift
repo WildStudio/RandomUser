@@ -23,6 +23,7 @@ protocol ListViewModelType {
     func insertBlacklisted(_ user: User) -> Bool
     func userIsBlackListed(_ user: User) -> Bool
     func performFetching()
+    func loadRemoteData()
     func handleResult(_ result: Result<[User], Error>)
     
 }
