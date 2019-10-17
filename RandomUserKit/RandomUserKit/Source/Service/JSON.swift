@@ -31,7 +31,6 @@ public struct JSON {
             guard let json = decodedData(from: data),
                 let value = json[key]
                 else { return nil }
-            print(value)
             let data = try serialize(value: value)
             let models = try JSONDecoder().decode([M].self, from: data)
             return models

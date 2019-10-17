@@ -18,7 +18,6 @@ extension URLSession {
         _ request: URLRequest,
         completion: @escaping NetworkResponseResultCompletion
     ) {
-        print(request)
         dataTask(with: request) { [weak self] data, response, error in
             guard error == nil else {
                 completion(.failure(error!))
