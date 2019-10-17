@@ -8,10 +8,11 @@
 
 import Foundation
 import Models
+import os
 
 typealias Blacklisted = (user: User, userID: UUID)
 
-class ListViewModel: ListViewModelType {
+final class ListViewModel: ListViewModelType {
     
     private enum Constant {
         static let navigationBarTitle = "Random Users"
@@ -23,18 +24,32 @@ class ListViewModel: ListViewModelType {
     private(set) var userIDs = Set<UUID>()
     private(set) var title = Constant.navigationBarTitle
     private(set) var isFetching: Bool = false
+    private var userStore = Cache()
     
     private let repository: RandomUsersRepositoryType
     
     weak var delegate: HomeViewModelDelegate?
+    
+    var usersArray: [User] {
+        Array(users)
+    }
     
     
     init(repository: RandomUsersRepositoryType) {
         self.repository = repository
     }
     
+    func showEmptyState() -> Bool {
+        !userStore.isFilePersisted()
+    }
+    
     
     func performFetching() {
+        userStore.isFilePersisted() ? loadLocalStore() : loadRemoteData()
+    }
+    
+    
+    func loadRemoteData() {
         guard !isFetching else { return }
         isFetching = true
         repository.fetch(
@@ -85,6 +100,7 @@ class ListViewModel: ListViewModelType {
     func remove(user: User, at index: Int) {
         if insertBlacklisted(user) {
             users.remove(user)
+            store(usersArray)
             delegate?.deletedItem(at: index, users: Array(users))
         }
     }
@@ -97,19 +113,34 @@ class ListViewModel: ListViewModelType {
         switch result {
         case .success(let users):
             isFetching = false
-            let usersSet = Set(users)
-                .filter { !userIsBlackListed($0) }
-                .uniqueElements
-            self.users = Set(self.users.union(usersSet).uniqueElements)
-            delegate?.onFetchCompleted(with: Array(self.users))
+            let usersSet = Set(users).filter { !userIsBlackListed($0) }
+            self.users = self.users.union(usersSet).uniqueElements
+            delegate?.onFetchCompleted(with: usersArray)
+            store(usersArray)
         case .failure(let error):
             isFetching = false
             delegate?.onFetchFailed(with: error.localizedDescription)
         }
     }
     
+    private func store(_ users: [User]) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            do {
+                try self?.userStore.saveToDisk(users: users)
+            } catch let error {
+                os_log(
+                    "Can't store users",
+                    log: Log.cache,
+                    type: .error,
+                    error.localizedDescription
+                )
+            }
+        }
+    }
+    
 }
 
+// MARK: - Blacklisting
 
 extension ListViewModel {
     
@@ -130,4 +161,42 @@ extension ListViewModel {
         return userIDs.contains(ID)
     }
     
+}
+
+// MARK: - Local Store (Cache)
+
+extension ListViewModel {
+    
+    func loadLocalStore() {
+        var users = [User]()
+        
+        // Try to load local data
+        do {
+            users = try userStore.loadFromDisk()
+        } catch let error {
+            os_log("Can't load data", log: Log.cache, type: .error, error.localizedDescription)
+        }
+        
+        // If none users are given back delete disk file
+        if users.count == 0 {
+            removeLocalStore()
+        }
+        
+        delegate?.onFetchCompleted(with: users)
+        self.users = Set(users)
+    }
+    
+    
+    func removeLocalStore() {
+        do {
+            try userStore.removeFile()
+        }  catch let error {
+            os_log(
+                "Can't delete local data",
+                log: Log.cache,
+                type: .error, error.localizedDescription
+            )
+        }
+    }
+
 }

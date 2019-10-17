@@ -10,10 +10,12 @@ import UIKit
 import MapKit
 import SDWebImage
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     
     private enum Constant {
         static let placeholderImage = "avatar-image"
+        static let storyboard = "Main"
+        static let identifier = "DetailViewController"
     }
     
     private var viewModel: UserViewModelType?
@@ -53,6 +55,20 @@ class DetailViewController: UIViewController {
         if let coordinate = viewModel?.locationCoordinate {
             mapView.addAnnotation(Marker(coordinate: coordinate))
         }
+    }
+    
+}
+
+
+extension DetailViewController {
+    
+    static func instantiate() -> DetailViewController? {
+        let storyboard = UIStoryboard(name: DetailViewController.Constant.storyboard, bundle: nil)
+        guard let viewController = storyboard
+            .instantiateViewController(withIdentifier: Constant.identifier) as? DetailViewController
+            else { return nil }
+        
+        return viewController
     }
     
 }

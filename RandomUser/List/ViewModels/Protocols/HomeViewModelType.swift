@@ -17,12 +17,14 @@ protocol ListViewModelType {
     var users: Set<User> { get }
     var userIDs: Set<UUID> { get }
     
+    func showEmptyState() -> Bool
     func viewModel(for user: User) -> UserViewModelType
     func remove(user: User, at index: Int)
     func updateSearchResults(for text: String) -> [User]
     func insertBlacklisted(_ user: User) -> Bool
     func userIsBlackListed(_ user: User) -> Bool
     func performFetching()
+    func loadRemoteData()
     func handleResult(_ result: Result<[User], Error>)
     
 }

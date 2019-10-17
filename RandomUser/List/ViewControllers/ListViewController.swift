@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  ListViewController.swift
 //  RandomUser
 //
 //  Created by wearemobilefirst on 14/10/2019.
@@ -11,7 +11,7 @@ import Models
 import SDWebImage
 import RandomUserKit
 
-class ListViewController: UIViewController, AlertControllerDisplayer {
+final class ListViewController: UIViewController, AlertControllerDisplayer {
     
     private enum Constant {
         static let cellReuseIdentifier = "cell"
@@ -19,6 +19,7 @@ class ListViewController: UIViewController, AlertControllerDisplayer {
         static let alertOK = "OK"
         static let searchBarPlaceholder = "Start typing to filter users..."
         static let showDetailView = "showdetail"
+        static let prefetchingCell = 5
     }
     
     @IBOutlet private var tableView: UITableView!
@@ -45,12 +46,14 @@ class ListViewController: UIViewController, AlertControllerDisplayer {
     
     
     override func viewDidLoad() {
+
         super.viewDidLoad()
-        addEmptyState()
+        self.viewModel?.delegate = self
+        title = self.viewModel?.title
         setupTableView()
         setupSearchController()
-        viewModel?.delegate = self
-        title = viewModel?.title
+        guard let viewModel = viewModel else { return }
+        viewModel.showEmptyState() ? addEmptyState() : viewModel.performFetching()
     }
     
     
@@ -67,17 +70,18 @@ class ListViewController: UIViewController, AlertControllerDisplayer {
         tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
     }
     
+    
     private func addEmptyState() {
         emptyStateController.delegate = self
         embed(emptyStateController)
         embedView(emptyStateController.view, in: view)
     }
-
-
+    
+    
     private func removeEmptyState() {
         remove(emptyStateController)
     }
-
+    
     
     private func setupSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
@@ -90,24 +94,27 @@ class ListViewController: UIViewController, AlertControllerDisplayer {
         search?.searchBar.isHidden = true
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let viewController = segue.destination as? DetailViewController,
-            let viewModel = sender as? UserViewModel
-            else { return }
-        viewController.configure(with: viewModel)
-    }
-    
 }
 
-// MARK: - Table view data source
+// MARK: - Table view data source & Delegate
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(
-            withIdentifier: Constant.showDetailView,
-            sender: viewModel?.viewModel(for: users[indexPath.row])
-        )
+        var user: User?
+        
+        if isFiltering {
+            user = filteredData[safe: indexPath.row]
+        } else {
+            user = users[safe:indexPath.row]
+        }
+        
+        guard let unwrappedUser = user,
+            let userViewModel = viewModel?.viewModel(for: unwrappedUser),
+            let controller = DetailViewController.instantiate()
+            else { return }
+        controller.configure(with: userViewModel)
+        show(controller, sender: nil)
     }
     
     
@@ -210,7 +217,7 @@ extension ListViewController: UITableViewDataSourcePrefetching {
     func isLoadingCell(for indexPath: IndexPath) -> Bool {
         guard let viewModel = self.viewModel
             else { return false }
-        return indexPath.row >= viewModel.users.count - 5
+        return indexPath.row >= viewModel.users.count - Constant.prefetchingCell
     }
     
     
@@ -223,9 +230,8 @@ extension ListViewController: UITableViewDataSourcePrefetching {
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         if indexPaths.contains(where: isLoadingCell) {
-            viewModel?.performFetching()
+            viewModel?.loadRemoteData()
         }
-        
     }
     
 }
