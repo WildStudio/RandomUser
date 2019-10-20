@@ -13,7 +13,6 @@ import SDWebImage
 final class ThumbnailTableViewCell: UITableViewCell {
     
     private enum Constant {
-        static let none = "Empty Field"
         static let placeholderImage = "avatar-image"
     }
     
@@ -29,21 +28,12 @@ final class ThumbnailTableViewCell: UITableViewCell {
     }
     
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        configure(with: .none)
-    }
-    
-    
-    func configure(with user: User?) {
-        guard let user = user else { return }
-        textLabel?.text = "\(user.name?.first ?? Constant.none) \(user.name?.last ?? Constant.none)"
-        
-        detailTextLabel?.text = "\(user.email ?? Constant.none) \(user.phone ?? Constant.none)"
-        
+    func configure(with viewModel: ThumbnailCellViewModel?) {
+        textLabel?.text = viewModel?.textLabel
+        detailTextLabel?.text = viewModel?.detailLabel
         imageView?.image = UIImage(named: Constant.placeholderImage)
-        if let thumbnail = user.picture?.thumbnail,
-            let imageURL = URL(string: thumbnail) {
+        
+        if let imageURL = viewModel?.profileImageURL {
             imageView?.sd_setImage(with: imageURL)
         }
         

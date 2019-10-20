@@ -66,8 +66,19 @@ final class ListViewModel: ListViewModelType {
     ///     - index: the given index  tapped
     func viewModel(at index: Int, isFiltering: Bool) -> UserViewModelType? {
         guard let user = isFiltering ? filteredData[safe: index] : usersArray[safe: index]
-            else { return nil }
+            else { return .none }
         return UserViewModel(user: user)
+    }
+    
+    
+    /// Returns a `ThumbnailCellViewModel`
+    ///- Parameters:
+    ///     - isFiltering: Whether the view is in search mode or not.
+    ///     - index: the given index  tapped
+    func thumbnailCellViewModel(at index: Int, isFiltering: Bool) -> ThumbnailCellViewModel? {
+        guard let user = isFiltering ? filteredData[safe: index] : usersArray[safe: index]
+            else { return nil }
+        return ThumbnailCellViewModel(user)
     }
     
     
@@ -200,5 +211,5 @@ extension ListViewModel {
             )
         }
     }
-
+    
 }

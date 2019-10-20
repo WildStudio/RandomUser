@@ -25,6 +25,7 @@
 		883879F2235470C40012C1B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 883879F0235470C40012C1B2 /* Main.storyboard */; };
 		883879F4235470C60012C1B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 883879F3235470C60012C1B2 /* Assets.xcassets */; };
 		883879F7235470C60012C1B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 883879F5235470C60012C1B2 /* LaunchScreen.storyboard */; };
+		884E9C12235CFF5600DF89DF /* ThumbnailCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884E9C11235CFF5600DF89DF /* ThumbnailCellViewModel.swift */; };
 		8856115B2355CD6000FBA78B /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856115A2355CD6000FBA78B /* ListViewModel.swift */; };
 		8856115E2355CDAF00FBA78B /* RandomUsersRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856115D2355CDAF00FBA78B /* RandomUsersRepository.swift */; };
 		885611612355CE0E00FBA78B /* RandomUsersRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885611602355CE0E00FBA78B /* RandomUsersRepositoryType.swift */; };
@@ -93,6 +94,7 @@
 		883879F8235470C60012C1B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		883879FD235470C60012C1B2 /* RandomUserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomUserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88387A03235470C60012C1B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		884E9C11235CFF5600DF89DF /* ThumbnailCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCellViewModel.swift; sourceTree = "<group>"; };
 		8856115A2355CD6000FBA78B /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		8856115D2355CDAF00FBA78B /* RandomUsersRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUsersRepository.swift; sourceTree = "<group>"; };
 		885611602355CE0E00FBA78B /* RandomUsersRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUsersRepositoryType.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			children = (
 				885A53EC23575887008CB73C /* Protocols */,
 				8856115A2355CD6000FBA78B /* ListViewModel.swift */,
+				884E9C11235CFF5600DF89DF /* ThumbnailCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				8825C2E3235702880015145B /* ThumbnailTableViewCell.swift in Sources */,
 				88D1CCBE2358689800CD888E /* CacheService.swift in Sources */,
 				885611612355CE0E00FBA78B /* RandomUsersRepositoryType.swift in Sources */,
+				884E9C12235CFF5600DF89DF /* ThumbnailCellViewModel.swift in Sources */,
 				8856115B2355CD6000FBA78B /* ListViewModel.swift in Sources */,
 				88B4284D2357D32B00C8F6E2 /* DetailViewController.swift in Sources */,
 				88D1CCC123586D4F00CD888E /* Log.swift in Sources */,

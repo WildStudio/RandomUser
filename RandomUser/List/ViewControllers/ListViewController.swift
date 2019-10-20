@@ -115,21 +115,15 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: Constant.cellReuseIdentifier
             ) as? ThumbnailTableViewCell,
-            let viewModel = viewModel
+            let viewModel = viewModel,
+            let thumbnailCellViewModel = viewModel.thumbnailCellViewModel(at: indexPath.row, isFiltering: isFiltering)
             else { return emptyCell }
-        
-        let user: User
-        
-        if isFiltering {
-            user = viewModel.filteredData[indexPath.row]
-        } else {
-            user = viewModel.usersArray[indexPath.row]
-        }
+    
         
         if isLoadingCell(for: indexPath) {
             cell.configure(with: .none)
         } else  {
-            cell.configure(with: user)
+            cell.configure(with: thumbnailCellViewModel)
         }
         
         return cell

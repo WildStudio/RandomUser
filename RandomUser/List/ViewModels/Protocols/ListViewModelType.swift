@@ -21,6 +21,7 @@ protocol ListViewModelType {
     
     func showEmptyState() -> Bool
     func viewModel(at index: Int, isFiltering: Bool) -> UserViewModelType?
+    func thumbnailCellViewModel(at index: Int, isFiltering: Bool) -> ThumbnailCellViewModel?
     func remove(user: User, at index: Int)
     func updateSearchResults(for text: String)
     func insertBlacklisted(_ user: User) -> Bool
