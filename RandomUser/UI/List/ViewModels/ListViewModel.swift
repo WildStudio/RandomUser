@@ -89,9 +89,9 @@ final class ListViewModel: ListViewModelType {
         
         // We first filter based on name, username, and email:
         let nameResults = users
-            .filter { ($0.name?.first?.lowercased().contains(text.lowercased()) ?? false) }
+            .filter { ($0.name?.first.lowercased().contains(text.lowercased()) ?? false) }
         let surnameResults = users
-            .filter { ($0.name?.last?.lowercased().contains(text.lowercased()) ?? false) }
+            .filter { ($0.name?.last.lowercased().contains(text.lowercased()) ?? false) }
         let emailResults = users
             .filter { ($0.email?.lowercased().contains(text.lowercased()) ?? false) }
         
@@ -126,7 +126,7 @@ final class ListViewModel: ListViewModelType {
         case .success(let users):
             isFetching = false
             let usersSet = Set(users).filter { !userIsBlackListed($0) }
-            self.users = self.users.union(usersSet).uniqueElements
+            self.users = self.users.union(usersSet)
             delegate?.onFetchCompleted()
             store(usersArray)
         case .failure(let error):
@@ -191,7 +191,7 @@ extension ListViewModel {
         }
         
         // If none users are given back delete disk file
-        if users.count == 0 {
+        if users.count == .zero {
             removeLocalStore()
         }
         

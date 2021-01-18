@@ -72,28 +72,3 @@ extension User: Codable {
     }
     
 }
-
-
-extension User: Hashable {
-    
-    public static func == (lhs: User, rhs: User) -> Bool {
-        return lhs.gender == rhs.gender
-        && lhs.name == rhs.name
-        && lhs.location == rhs.location
-        && lhs.login == rhs.login
-        && lhs.dob == rhs.dob
-        && lhs.registered == rhs.registered
-        && lhs.phone == rhs.phone
-        && lhs.cell == rhs.cell
-        && lhs.id == rhs.id
-        && lhs.picture == rhs.picture
-        && lhs.nationality == rhs.nationality
-    }
-    
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(userUUID)
-    }
-    
-}
-
