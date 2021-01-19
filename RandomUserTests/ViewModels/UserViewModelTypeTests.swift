@@ -18,7 +18,7 @@ class UserViewModelTypeTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let user = MockConstant.user
+        let user = MockConstant.user.asUser
         viewModel = UserViewModel(user: user)
     }
     

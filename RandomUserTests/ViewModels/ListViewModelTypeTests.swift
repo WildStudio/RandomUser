@@ -11,7 +11,7 @@ import XCTest
 
 class ListViewModelTypeTests: XCTestCase {
 
-    var viewModel: ListViewModelType!
+    var sut: ListViewModel!
     var repository: RandomUsersRepositoryType!
     
     
@@ -22,33 +22,39 @@ class ListViewModelTypeTests: XCTestCase {
                 serverConfig: MockServerConfig()
             ), cacheService: CacheService()
         )
-        viewModel = ListViewModel(repository: repository)
+        sut = ListViewModel(repository: repository)
     }
     
     
     func tesUserIsInsertedInUsersList() {
         // Given, When
-        viewModel.handleResult(.success([MockConstant.user]))
+        sut.handleResult(
+            .success([MockConstant.user].map { $0.asUser })
+        )
         
         // Then
-        XCTAssertEqual(viewModel.users.count, 1)
+        XCTAssertEqual(sut.users.count, 1)
     }
 
     
     func testUserIsRemovedAndNotInsertedIfIsBlacklisted() {
         // Given
-        viewModel.handleResult(.success([MockConstant.user]))
+        sut.handleResult(
+            .success([MockConstant.user].map { $0.asUser })
+        )
         
-        XCTAssertEqual(viewModel.users.count, 1)
-        XCTAssertEqual(viewModel.blacklist.count, 0)
+        XCTAssertEqual(sut.users.count, 1)
+        XCTAssertEqual(sut.blacklist.count, 0)
         
         // When
-        viewModel.remove(user: MockConstant.user, at: 0)
-        viewModel.handleResult(.success([MockConstant.user]))
+        sut.remove(user: MockConstant.user.asUser, at: 0)
+        sut.handleResult(
+            .success([MockConstant.user].map { $0.asUser })
+        )
         
         // Then
-        XCTAssertEqual(viewModel.users.count, 0)
-        XCTAssertEqual(viewModel.blacklist.count, 1)
+        XCTAssertEqual(sut.users.count, 0)
+        XCTAssertEqual(sut.blacklist.count, 1)
     }
 
 }

@@ -13,7 +13,3 @@ public struct Coordinates: Codable {
     public let longitude: String?
 }
 
-extension Coordinates: Equatable {
-    
-}
-

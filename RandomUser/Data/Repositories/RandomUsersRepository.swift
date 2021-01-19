@@ -27,7 +27,7 @@ extension RandomUsersRepository: RandomUsersRepositoryType {
         service.fetchUsers(results: number) { response  in
             switch response {
             case .success(let users):
-                completion(.success(users))
+                completion(.success(users.map { $0.asUser }))
             case .failure(let error):
                 completion(.failure(error))
             }

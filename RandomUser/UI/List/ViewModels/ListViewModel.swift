@@ -12,12 +12,18 @@ import os
 
 typealias Blacklisted = (user: User, userID: UUID)
 
-final class ListViewModel: ListViewModelType {
+final class ListViewModel: ViewStateProviding {
     
     private enum Constant {
-        static let navigationBarTitle = "Random Users"
         static let results = 50
+        static let navigationBarTitle = "Random Users"
     }
+    
+    enum Event {
+        case idle
+        case deletedItem(at: Int)
+    }
+
     
     private(set) var filteredData = [User]()
     private(set) var blacklist = [Blacklisted]()
@@ -28,7 +34,30 @@ final class ListViewModel: ListViewModelType {
     
     private let repository: RandomUsersRepositoryType
     
-    weak var delegate: ListViewModelDelegate?
+    // MARK: - ViewStateEmitting
+
+    var onViewStateChange: ((ViewState<Void>) -> Void)?
+
+    private(set) var viewState: ViewState<Void> = .empty {
+        didSet {
+            DispatchQueue.main.async {
+                self.onViewStateChange?(self.viewState)
+            }
+        }
+    }
+    
+    // MARK: - EventEmitting
+
+    var onEvent: ((Event) -> Void)?
+
+    private(set) var event: Event = .idle {
+        didSet {
+            DispatchQueue.main.async {
+                self.onEvent?(self.event)
+            }
+        }
+    }
+    
     
     var usersArray: [User] {
         Array(users)
@@ -44,7 +73,8 @@ final class ListViewModel: ListViewModelType {
     }
     
     
-    func performFetching() {
+    func initialize() {
+        viewState = .loading
         repository.isFilePersisted() ? loadLocalStore() : loadRemoteData()
     }
     
@@ -89,9 +119,9 @@ final class ListViewModel: ListViewModelType {
         
         // We first filter based on name, username, and email:
         let nameResults = users
-            .filter { ($0.name?.first?.lowercased().contains(text.lowercased()) ?? false) }
+            .filter { ($0.name?.first.lowercased().contains(text.lowercased()) ?? false) }
         let surnameResults = users
-            .filter { ($0.name?.last?.lowercased().contains(text.lowercased()) ?? false) }
+            .filter { ($0.name?.last.lowercased().contains(text.lowercased()) ?? false) }
         let emailResults = users
             .filter { ($0.email?.lowercased().contains(text.lowercased()) ?? false) }
         
@@ -113,7 +143,7 @@ final class ListViewModel: ListViewModelType {
         if insertBlacklisted(user) {
             users.remove(user)
             store(usersArray)
-            delegate?.deletedItem(at: index)
+            event = .deletedItem(at: index)
         }
     }
     
@@ -126,12 +156,12 @@ final class ListViewModel: ListViewModelType {
         case .success(let users):
             isFetching = false
             let usersSet = Set(users).filter { !userIsBlackListed($0) }
-            self.users = self.users.union(usersSet).uniqueElements
-            delegate?.onFetchCompleted()
+            self.users = self.users.union(usersSet)
             store(usersArray)
+            viewState = .ready
         case .failure(let error):
             isFetching = false
-            delegate?.onFetchFailed(with: error.localizedDescription)
+            viewState = .error(error)
         }
     }
     
@@ -158,7 +188,7 @@ final class ListViewModel: ListViewModelType {
 extension ListViewModel {
     
     /// Returns a Boolean value that indicates whether a given user  can be inserted into the blacklist.
-    func insertBlacklisted(_ user: User) -> Bool {
+    private func insertBlacklisted(_ user: User) -> Bool {
         guard let ID = user.userUUID
             else { return false }
         
@@ -168,7 +198,7 @@ extension ListViewModel {
     }
     
     
-    func userIsBlackListed(_ user: User) -> Bool {
+    private func userIsBlackListed(_ user: User) -> Bool {
         guard let ID = user.userUUID
             else { return false }
         return userIDs.contains(ID)
@@ -180,7 +210,7 @@ extension ListViewModel {
 
 extension ListViewModel {
     
-    func loadLocalStore() {
+    private func loadLocalStore() {
         var users = [User]()
         
         // Try to load local data
@@ -191,16 +221,16 @@ extension ListViewModel {
         }
         
         // If none users are given back delete disk file
-        if users.count == 0 {
+        if users.count == .zero {
             removeLocalStore()
         }
         
-        delegate?.onFetchCompleted()
+        viewState = .ready
         self.users = Set(users)
     }
     
     
-    func removeLocalStore() {
+    private func removeLocalStore() {
         do {
             try repository.removeFile()
         }  catch let error {
