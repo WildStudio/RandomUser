@@ -188,7 +188,7 @@ final class ListViewModel: ViewStateProviding {
 extension ListViewModel {
     
     /// Returns a Boolean value that indicates whether a given user  can be inserted into the blacklist.
-    func insertBlacklisted(_ user: User) -> Bool {
+    private func insertBlacklisted(_ user: User) -> Bool {
         guard let ID = user.userUUID
             else { return false }
         
@@ -198,7 +198,7 @@ extension ListViewModel {
     }
     
     
-    func userIsBlackListed(_ user: User) -> Bool {
+    private func userIsBlackListed(_ user: User) -> Bool {
         guard let ID = user.userUUID
             else { return false }
         return userIDs.contains(ID)

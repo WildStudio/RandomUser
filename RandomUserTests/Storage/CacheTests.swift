@@ -26,7 +26,9 @@ class CacheTests: XCTestCase {
     
     func testFileIsCached() {
         // Given, When
-        try? cache.saveToDisk(users: [MockConstant.user])
+        try? cache.saveToDisk(
+            users: [MockConstant.user].map { $0.asUser }
+        )
         
         // Then
         XCTAssertTrue(cache.isFilePersisted())
@@ -35,7 +37,9 @@ class CacheTests: XCTestCase {
     
     func testFileIsLoadedAndUsersArePresent() {
         // Given
-        try? cache.saveToDisk(users: [MockConstant.user])
+        try? cache.saveToDisk(
+            users: [MockConstant.user].map { $0.asUser }
+        )
         
         // When
         let users = try? cache.loadFromDisk()
@@ -47,7 +51,9 @@ class CacheTests: XCTestCase {
     
     func testFileIsRemovedFromCache() {
         // Given
-        try? cache.saveToDisk(users: [MockConstant.user])
+        try? cache.saveToDisk(
+            users: [MockConstant.user].map { $0.asUser }
+        )
         
         // When
         let users = try? cache.loadFromDisk()

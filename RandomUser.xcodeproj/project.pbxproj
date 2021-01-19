@@ -25,7 +25,6 @@
 		8825C2F123571D320015145B /* Sequence+Unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2F023571D320015145B /* Sequence+Unique.swift */; };
 		8825C2F323571F180015145B /* Collection+SafeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2F223571F180015145B /* Collection+SafeTests.swift */; };
 		8825C2F523571F7F0015145B /* Sequence+Unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2F423571F7F0015145B /* Sequence+Unique.swift */; };
-		8825C2F723571FFD0015145B /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 8825C2F623571FFD0015145B /* SDWebImage */; };
 		882F7B0B2355F86700F40ADD /* RandomUserRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882F7B0A2355F86700F40ADD /* RandomUserRepositoryTests.swift */; };
 		882F7B0E2355F91100F40ADD /* MockRandomUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882F7B0D2355F91100F40ADD /* MockRandomUserService.swift */; };
 		882F7B102355FA3000F40ADD /* MockConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882F7B0F2355FA3000F40ADD /* MockConstant.swift */; };
@@ -152,7 +151,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8825C2F723571FFD0015145B /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,7 +476,6 @@
 			);
 			name = RandomUserTests;
 			packageProductDependencies = (
-				8825C2F623571FFD0015145B /* SDWebImage */,
 			);
 			productName = RandomUserTests;
 			productReference = 883879FD235470C60012C1B2 /* RandomUserTests.xctest */;
@@ -870,11 +867,6 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		8825C2DB235628850015145B /* SDWebImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8825C2DA235628850015145B /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImage;
-		};
-		8825C2F623571FFD0015145B /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8825C2DA235628850015145B /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
