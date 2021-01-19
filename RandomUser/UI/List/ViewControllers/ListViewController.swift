@@ -25,7 +25,7 @@ final class ListViewController: UIViewController, AlertControllerDisplayer {
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
     private var search: UISearchController?
-    private var viewModel: ListViewModelType?
+    private var viewModel: ListViewModel?
     lazy private var emptyStateController = EmptyStateViewController()
     
     
@@ -39,20 +39,30 @@ final class ListViewController: UIViewController, AlertControllerDisplayer {
     
     lazy var emptyCell = UITableViewCell()
     
+    // MARK: - Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewModel?.delegate = self
-        title = self.viewModel?.title
+        title = viewModel?.title
+        setupStateObserving()
+        setupEventObserving()
         setupTableView()
         setupSearchController()
         guard let viewModel = viewModel else { return }
-        viewModel.showEmptyState() ? addEmptyState() : viewModel.performFetching()
+        viewModel.initialize()
     }
     
     
-    func configure(with viewModel: ListViewModelType) {
+    func configure(with viewModel: ListViewModel) {
         self.viewModel = viewModel
+    }
+    
+    private func refreshView() {
+        activityIndicator.stopAnimating()
+        search?.searchBar.isHidden = false
+        tableView.isHidden = false
+        removeEmptyState()
+        tableView.reloadData()
     }
     
     
@@ -61,7 +71,10 @@ final class ListViewController: UIViewController, AlertControllerDisplayer {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.isHidden = true
-        tableView.register(ThumbnailTableViewCell.self, forCellReuseIdentifier: Constant.cellReuseIdentifier)
+        tableView.register(
+            ThumbnailTableViewCell.self,
+            forCellReuseIdentifier: Constant.cellReuseIdentifier
+        )
     }
     
     
@@ -90,15 +103,47 @@ final class ListViewController: UIViewController, AlertControllerDisplayer {
     
 }
 
+// MARK: - Observing
+
+extension ListViewController {
+    
+    private func setupStateObserving() {
+        viewModel?.onViewStateChange = { [weak self] state in
+            guard let self = self else { return }
+            switch state {
+            case .loading:
+                self.activityIndicator.startAnimating()
+            case .ready:
+                self.refreshView()
+            case let .error(error):
+                self.presentAlert(with: error.localizedDescription)
+            case .empty:
+                self.addEmptyState()
+            }
+        }
+    }
+    
+    private func setupEventObserving() {
+        viewModel?.onEvent = { [weak self] event in
+            switch event {
+            case let .deletedItem(at: index):
+                self?.deleteItem(at: index)
+            case .idle:
+                return
+            }
+        }
+    }
+}
+
 // MARK: - Table view data source & Delegate
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let viewModel = viewModel,
-            let userViewModel = viewModel.viewModel(at: indexPath.row, isFiltering: isFiltering),
-            let controller = DetailViewController.instantiate()
-            else { return }
+              let userViewModel = viewModel.viewModel(at: indexPath.row, isFiltering: isFiltering),
+              let controller = DetailViewController.instantiate()
+        else { return }
         controller.configure(with: userViewModel)
         show(controller, sender: nil)
     }
@@ -114,11 +159,11 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: Constant.cellReuseIdentifier
-            ) as? ThumbnailTableViewCell,
-            let viewModel = viewModel,
-            let thumbnailCellViewModel = viewModel.thumbnailCellViewModel(at: indexPath.row, isFiltering: isFiltering)
-            else { return emptyCell }
-    
+        ) as? ThumbnailTableViewCell,
+        let viewModel = viewModel,
+        let thumbnailCellViewModel = viewModel.thumbnailCellViewModel(at: indexPath.row, isFiltering: isFiltering)
+        else { return emptyCell }
+        
         
         if isLoadingCell(for: indexPath) {
             cell.configure(with: .none)
@@ -136,7 +181,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         forRowAt indexPath: IndexPath
     ) {
         guard !isFiltering,
-            let viewModel = viewModel else { return }
+              let viewModel = viewModel else { return }
         if editingStyle == .delete {
             viewModel.remove(user: viewModel.usersArray[indexPath.row], at: indexPath.row)
         }
@@ -144,31 +189,22 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-// MARK: - View Model delegate
+// MARK: - Actions
 
-extension ListViewController: ListViewModelDelegate {
+extension ListViewController {
     
-    func onFetchFailed(with reason: String) {
+    private func presentAlert(with reason: String) {
         activityIndicator.stopAnimating()
         let action = UIAlertAction(title: Constant.alertOK, style: .default)
         displayAlert(with: Constant.alertTitle , message: reason, actions: [action])
     }
     
     
-    func deletedItem(at index: Int) {
+    private func deleteItem(at index: Int) {
         tableView.beginUpdates()
         tableView.reloadData()
         tableView.deleteRows(at: [IndexPath(item: index, section: 0)], with: .top)
         tableView.endUpdates()
-    }
-    
-    
-    func onFetchCompleted() {
-        activityIndicator.stopAnimating()
-        search?.searchBar.isHidden = false
-        tableView.isHidden = false
-        removeEmptyState()
-        tableView.reloadData()
     }
     
 }
@@ -176,7 +212,7 @@ extension ListViewController: ListViewModelDelegate {
 extension ListViewController: EmptyStateViewControllerDelegate {
     
     func emptyStatesViewControllerTappedMainButton() {
-        viewModel?.performFetching()
+        viewModel?.initialize()
     }
     
 }
@@ -187,7 +223,7 @@ extension ListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text
-            else { return }
+        else { return }
         viewModel?.updateSearchResults(for: text)
         tableView.reloadData()
     }
@@ -199,7 +235,7 @@ extension ListViewController: UITableViewDataSourcePrefetching {
     
     func isLoadingCell(for indexPath: IndexPath) -> Bool {
         guard let viewModel = self.viewModel
-            else { return false }
+        else { return false }
         return indexPath.row >= viewModel.users.count - Constant.prefetchingCell
     }
     

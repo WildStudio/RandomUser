@@ -9,9 +9,8 @@
 import Foundation
 import Models
 
-protocol ListViewModelType {
+protocol ListViewModelType: EventEmitting {
     
-    var delegate: ListViewModelDelegate? { get set }
     var title: String { get }
     var filteredData: [User] { get }
     var blacklist: [Blacklisted] { get }
@@ -19,6 +18,10 @@ protocol ListViewModelType {
     var usersArray: [User] { get }
     var userIDs: Set<UUID> { get }
     
+    var onEvent: ((EventType) -> Void)? { get }
+    var onViewStateChange: ((ViewState<Void>) -> Void)? { get set }
+    
+    func initialize()
     func showEmptyState() -> Bool
     func viewModel(at index: Int, isFiltering: Bool) -> UserViewModelType?
     func thumbnailCellViewModel(at index: Int, isFiltering: Bool) -> ThumbnailCellViewModel?
@@ -26,7 +29,6 @@ protocol ListViewModelType {
     func updateSearchResults(for text: String)
     func insertBlacklisted(_ user: User) -> Bool
     func userIsBlackListed(_ user: User) -> Bool
-    func performFetching()
     func loadRemoteData()
     func handleResult(_ result: Result<[User], Error>)
     

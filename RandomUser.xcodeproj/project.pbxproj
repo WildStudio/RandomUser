@@ -17,6 +17,8 @@
 		38437F5C25B60E7E008482F9 /* RegisteredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38437F5B25B60E7E008482F9 /* RegisteredData.swift */; };
 		38437F5F25B60EBE008482F9 /* UserIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38437F5E25B60EBE008482F9 /* UserIdentifier.swift */; };
 		38437F6325B61839008482F9 /* TimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38437F6225B61839008482F9 /* TimeZone.swift */; };
+		38437F6E25B6E140008482F9 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38437F6D25B6E140008482F9 /* ViewState.swift */; };
+		38437F7225B6EDEC008482F9 /* EventEmitting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38437F7125B6EDEC008482F9 /* EventEmitting.swift */; };
 		8825C2DC235628850015145B /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 8825C2DB235628850015145B /* SDWebImage */; };
 		8825C2DF235678CE0015145B /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2DE235678CE0015145B /* Collection+Safe.swift */; };
 		8825C2E3235702880015145B /* ThumbnailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825C2E2235702880015145B /* ThumbnailTableViewCell.swift */; };
@@ -42,7 +44,6 @@
 		885A53E923572344008CB73C /* ListViewModelTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53E823572344008CB73C /* ListViewModelTypeTests.swift */; };
 		885A53EB23573FF5008CB73C /* AlertControllerDisplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53EA23573FF5008CB73C /* AlertControllerDisplayer.swift */; };
 		885A53EE235758A4008CB73C /* ListViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53ED235758A4008CB73C /* ListViewModelType.swift */; };
-		885A53F0235758D2008CB73C /* ListViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53EF235758D2008CB73C /* ListViewModelDelegate.swift */; };
 		885A53F223576288008CB73C /* UIViewController+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53F123576288008CB73C /* UIViewController+Child.swift */; };
 		885A53F423576417008CB73C /* UIView+AutoLayoutHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885A53F323576417008CB73C /* UIView+AutoLayoutHelpers.swift */; };
 		88B4284D2357D32B00C8F6E2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B4284C2357D32B00C8F6E2 /* DetailViewController.swift */; };
@@ -94,6 +95,8 @@
 		38437F5B25B60E7E008482F9 /* RegisteredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredData.swift; sourceTree = "<group>"; };
 		38437F5E25B60EBE008482F9 /* UserIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdentifier.swift; sourceTree = "<group>"; };
 		38437F6225B61839008482F9 /* TimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZone.swift; sourceTree = "<group>"; };
+		38437F6D25B6E140008482F9 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		38437F7125B6EDEC008482F9 /* EventEmitting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEmitting.swift; sourceTree = "<group>"; };
 		8825C2DE235678CE0015145B /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		8825C2E2235702880015145B /* ThumbnailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailTableViewCell.swift; sourceTree = "<group>"; };
 		8825C2F023571D320015145B /* Sequence+Unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Unique.swift"; sourceTree = "<group>"; };
@@ -121,7 +124,6 @@
 		885A53E823572344008CB73C /* ListViewModelTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTypeTests.swift; sourceTree = "<group>"; };
 		885A53EA23573FF5008CB73C /* AlertControllerDisplayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerDisplayer.swift; sourceTree = "<group>"; };
 		885A53ED235758A4008CB73C /* ListViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelType.swift; sourceTree = "<group>"; };
-		885A53EF235758D2008CB73C /* ListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelDelegate.swift; sourceTree = "<group>"; };
 		885A53F123576288008CB73C /* UIViewController+Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Child.swift"; sourceTree = "<group>"; };
 		885A53F323576417008CB73C /* UIView+AutoLayoutHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutHelpers.swift"; sourceTree = "<group>"; };
 		88B4284C2357D32B00C8F6E2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -189,6 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				8825C2DD235678B50015145B /* Extensions */,
+				38437F6D25B6E140008482F9 /* ViewState.swift */,
+				38437F7125B6EDEC008482F9 /* EventEmitting.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -354,7 +358,6 @@
 			isa = PBXGroup;
 			children = (
 				885A53ED235758A4008CB73C /* ListViewModelType.swift */,
-				885A53EF235758D2008CB73C /* ListViewModelDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				8856115E2355CDAF00FBA78B /* RandomUsersRepository.swift in Sources */,
 				883879EF235470C40012C1B2 /* ListViewController.swift in Sources */,
 				883879EB235470C40012C1B2 /* AppDelegate.swift in Sources */,
+				38437F6E25B6E140008482F9 /* ViewState.swift in Sources */,
 				8825C2E3235702880015145B /* ThumbnailTableViewCell.swift in Sources */,
 				88D1CCBE2358689800CD888E /* CacheService.swift in Sources */,
 				885611612355CE0E00FBA78B /* RandomUsersRepositoryType.swift in Sources */,
@@ -564,6 +568,7 @@
 				38437F0B25B4CC25008482F9 /* Name.swift in Sources */,
 				38437F0825B4CBD1008482F9 /* User.swift in Sources */,
 				38437F5625B60DF7008482F9 /* DateOfBirth.swift in Sources */,
+				38437F7225B6EDEC008482F9 /* EventEmitting.swift in Sources */,
 				88B4284D2357D32B00C8F6E2 /* DetailViewController.swift in Sources */,
 				38437F5F25B60EBE008482F9 /* UserIdentifier.swift in Sources */,
 				88D1CCC123586D4F00CD888E /* Log.swift in Sources */,
@@ -578,7 +583,6 @@
 				88B4284F2357D6EB00C8F6E2 /* UserViewModel.swift in Sources */,
 				885A53EB23573FF5008CB73C /* AlertControllerDisplayer.swift in Sources */,
 				38437F1225B5E221008482F9 /* Cooridnates.swift in Sources */,
-				885A53F0235758D2008CB73C /* ListViewModelDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
